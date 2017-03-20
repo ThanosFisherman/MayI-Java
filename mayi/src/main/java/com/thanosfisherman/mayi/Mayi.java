@@ -10,9 +10,9 @@ import android.util.Log;
 
 import java.util.Arrays;
 
-public class PermissionsHelper extends Fragment
+public class Mayi extends Fragment
 {
-    private static final String TAG = PermissionsHelper.class.getSimpleName();
+    private static final String TAG = Mayi.class.getSimpleName();
     private static final int PERMISSION_REQUEST_CODE = 1001;
     private PermissionBean[] mPermissions = null;
     private IPermissionsAllListener mListenerAll;
@@ -23,7 +23,7 @@ public class PermissionsHelper extends Fragment
      *
      * @param permissionsStr - the permissions string array
      */
-    public PermissionsHelper setPermissions(String... permissionsStr)
+    public Mayi setPermissions(String... permissionsStr)
     {
         mPermissions = new PermissionBean[permissionsStr.length];
         for (int i = 0; i < permissionsStr.length; i++)
@@ -166,22 +166,22 @@ public class PermissionsHelper extends Fragment
         return mPermissions;
     }
 
-    public static <ParentFrag extends Fragment> PermissionsHelper getInstance(ParentFrag parent)
+    public static <ParentFrag extends Fragment> Mayi getInstance(ParentFrag parent)
     {
         return getInstance(parent.getChildFragmentManager());
     }
 
-    public static <ParentActivity extends FragmentActivity> PermissionsHelper getInstance(ParentActivity parent)
+    public static <ParentActivity extends FragmentActivity> Mayi getInstance(ParentActivity parent)
     {
         return getInstance(parent.getSupportFragmentManager());
     }
 
-    private static PermissionsHelper getInstance(FragmentManager fragmentManager)
+    private static Mayi getInstance(FragmentManager fragmentManager)
     {
-        PermissionsHelper frag = (PermissionsHelper) fragmentManager.findFragmentByTag(TAG);
+        Mayi frag = (Mayi) fragmentManager.findFragmentByTag(TAG);
         if (frag == null)
         {
-            frag = new PermissionsHelper();
+            frag = new Mayi();
             frag.setRetainInstance(true);
             fragmentManager.beginTransaction().add(frag, TAG).commitNow();
         }

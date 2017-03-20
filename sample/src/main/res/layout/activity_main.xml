@@ -1,19 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.thanosfisherman.mayi.sample.MainActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-    <TextView
+    <Button
+        android:id="@+id/camera_permission_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_above="@id/contacts_permission_button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ask_for_camera_permission_button"
+        />
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/camera_permission_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/camera_permission_button"
+        android:layout_alignBottom="@+id/camera_permission_button"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_toEndOf="@+id/camera_permission_button"
+        android:layout_toRightOf="@+id/camera_permission_button"
+        android:text="@string/permission_unknown_feedback"/>
+
+    <Button
+        android:id="@+id/contacts_permission_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/ask_for_contacts_permission_button"
+        />
+
+    <TextView
+        android:id="@+id/contacts_permission_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_toEndOf="@+id/contacts_permission_button"
+        android:layout_toRightOf="@+id/contacts_permission_button"
+        android:text="@string/permission_unknown_feedback"/>
+
+
+    <Button
+        android:id="@+id/audio_permission_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contacts_permission_button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ask_for_audio_permission_button"
+        />
+
+    <TextView
+        android:id="@+id/audio_permission_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/audio_permission_button"
+        android:layout_alignBottom="@+id/audio_permission_button"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_toEndOf="@+id/audio_permission_button"
+        android:layout_toRightOf="@+id/audio_permission_button"
+        android:text="@string/permission_unknown_feedback"/>
+
+    <Button
+        android:id="@+id/all_permissions_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/contacts_permission_button"
+        android:layout_alignBottom="@+id/contacts_permission_button"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_toLeftOf="@+id/contacts_permission_button"
+        android:layout_toStartOf="@+id/contacts_permission_button"
+        android:text="@string/ask_for_all_permissions_button"/>
+
+</RelativeLayout>

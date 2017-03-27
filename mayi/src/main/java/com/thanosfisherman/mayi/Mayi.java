@@ -3,26 +3,40 @@ package com.thanosfisherman.mayi;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
+import com.thanosfisherman.mayi.listeners.IPermissionsBuilder;
+import com.thanosfisherman.mayi.listeners.MayiErrorListener;
+import com.thanosfisherman.mayi.listeners.PermissionResultListener;
+import com.thanosfisherman.mayi.listeners.RationaleListener;
+
 import java.util.Arrays;
 
-public class Mayi extends Fragment
+import static com.thanosfisherman.mayi.MayiFragment.PERMISSION_REQUEST_CODE;
+
+public class Mayi implements IPermissionsBuilder, IPermissionsBuilder.Permission, IPermissionsBuilder.SinglePermissionListener
 {
     private static final String TAG = Mayi.class.getSimpleName();
-    private static final int PERMISSION_REQUEST_CODE = 1001;
     private PermissionBean[] mPermissions = null;
-    private IPermissionsAllListener mListenerAll;
-    private IPermissionsEachListener mListenerEach;
+    private MayiFragment mFrag;
+    private PermissionResultListener mPermissionResultListener;
 
-    /**
-     * Set the permissions to be checked during  {@link #requestAll(IPermissionsAllListener)}
-     *
-     * @param permissionsStr - the permissions string array
-     */
+    private Mayi(FragmentActivity activity)
+    {
+        initialize(activity.getSupportFragmentManager());
+    }
+
+    public static IPermissionsBuilder.Permission withActivity(FragmentActivity activity)
+    {
+        return new Mayi(activity);
+    }
+ /*   *//**
+ * Set the permissions to be checked during  {@link #requestAll(IPermissionsAllListener)}
+ *
+ * @param permissionsStr - the permissions string array
+ *//*
     public Mayi setPermissions(String... permissionsStr)
     {
         mPermissions = new PermissionBean[permissionsStr.length];
@@ -31,9 +45,9 @@ public class Mayi extends Fragment
         return this;
     }
 
-    /**
-     * Check whether ALL permissions are granded or not.
-     */
+    *//**
+ * Check whether ALL permissions are granded or not.
+ *//*
     public void requestAll(IPermissionsAllListener listener)
     {
         if (mPermissions == null)
@@ -63,10 +77,10 @@ public class Mayi extends Fragment
         final String[] permissions = new String[mPermissions.length];
         for (int i = 0; i < mPermissions.length; i++)
             permissions[i] = mPermissions[i].getName();
-        requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+        //requestPermissions(permissions, PERMISSION_REQUEST_CODE);
     }
 
-    @Override
+
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
         Log.d(TAG, "onRequestPermissionsResult() " + Arrays.toString(permissions) + Arrays.toString(grantResults));
@@ -89,10 +103,12 @@ public class Mayi extends Fragment
         }
     }
 
+    */
+
     /**
      * Check that all given permissions have been granted by verifying that each entry in the
      * given array is of the value {@link PackageManager#PERMISSION_GRANTED}.
-     */
+     *//*
     private boolean verifyAllPermissionsFromResult(int[] grantResults, PermissionBean... bean)
     {
         boolean allGranted = true;
@@ -158,43 +174,52 @@ public class Mayi extends Fragment
             if (ActivityCompat.checkSelfPermission(getContext(), permission) != PackageManager.PERMISSION_GRANTED)
                 return false;
         return true;
-    }
-
-    public PermissionBean[] populatePermissions()
+    }*/
+    private void initialize(FragmentManager fragmentManager)
     {
-        verifyAllPermissionsGranted(mPermissions);
-        return mPermissions;
-    }
-
-    public static <ParentFrag extends Fragment> Mayi getInstance(ParentFrag parent)
-    {
-        return getInstance(parent.getChildFragmentManager());
-    }
-
-    public static <ParentActivity extends FragmentActivity> Mayi getInstance(ParentActivity parent)
-    {
-        return getInstance(parent.getSupportFragmentManager());
-    }
-
-    private static Mayi getInstance(FragmentManager fragmentManager)
-    {
-        Mayi frag = (Mayi) fragmentManager.findFragmentByTag(TAG);
-        if (frag == null)
+        mFrag = (MayiFragment) fragmentManager.findFragmentByTag(MayiFragment.TAG);
+        if (mFrag == null)
         {
-            frag = new Mayi();
-            frag.setRetainInstance(true);
-            fragmentManager.beginTransaction().add(frag, TAG).commitNow();
+            mFrag = new MayiFragment();
+            mFrag.setRetainInstance(true);
+            fragmentManager.beginTransaction().add(mFrag, TAG).commitNow();
         }
-        return frag;
     }
 
-    public interface IPermissionsAllListener
+    @Override
+    public IPermissionsBuilder withErrorListener(MayiErrorListener errorListener)
     {
-        void permissionResults(boolean isGranted);
+        return null;
     }
 
-    public interface IPermissionsEachListener
+    @Override
+    public SinglePermissionListener onPermissionGranted(PermissionResultListener response)
     {
-        void permissionResults(PermissionBean... permission);
+        return this;
+    }
+
+    @Override
+    public SinglePermissionListener onPermissionDenied(PermissionResultListener response)
+    {
+        return this;
+    }
+
+    @Override
+    public SinglePermissionListener onPermissionRationaleShouldBeShown(RationaleListener rationale)
+    {
+        return this;
+    }
+
+
+    @Override
+    public IPermissionsBuilder check()
+    {
+        return this;
+    }
+
+    @Override
+    public SinglePermissionListener withPermission(String permission)
+    {
+        return this;
     }
 }

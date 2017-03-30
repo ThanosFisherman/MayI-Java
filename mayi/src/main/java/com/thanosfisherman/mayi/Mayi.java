@@ -1,31 +1,25 @@
 package com.thanosfisherman.mayi;
 
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 
 import com.thanosfisherman.mayi.listeners.IPermissionsBuilder;
 import com.thanosfisherman.mayi.listeners.MayiErrorListener;
 import com.thanosfisherman.mayi.listeners.PermissionResultListener;
 import com.thanosfisherman.mayi.listeners.RationaleListener;
 
-import java.util.Arrays;
-
-import static com.thanosfisherman.mayi.MayiFragment.PERMISSION_REQUEST_CODE;
-
 public class Mayi implements IPermissionsBuilder, IPermissionsBuilder.Permission, IPermissionsBuilder.SinglePermissionListener
 {
     private static final String TAG = Mayi.class.getSimpleName();
     private PermissionBean[] mPermissions = null;
-    private MayiFragment mFrag;
-    private PermissionResultListener mPermissionResultListener;
+    private String mPermission;
+    private PermissionResultListener mPermissionsResultListener;
+    private RationaleListener mRationaleListener;
+    private MayiInstance instance;
 
     private Mayi(FragmentActivity activity)
     {
-        initialize(activity.getSupportFragmentManager());
+        initialize(activity);
     }
 
     public static IPermissionsBuilder.Permission withActivity(FragmentActivity activity)
@@ -175,15 +169,12 @@ public class Mayi implements IPermissionsBuilder, IPermissionsBuilder.Permission
                 return false;
         return true;
     }*/
-    private void initialize(FragmentManager fragmentManager)
+    private void initialize(FragmentActivity activity)
     {
-        mFrag = (MayiFragment) fragmentManager.findFragmentByTag(MayiFragment.TAG);
-        if (mFrag == null)
-        {
-            mFrag = new MayiFragment();
-            mFrag.setRetainInstance(true);
-            fragmentManager.beginTransaction().add(mFrag, TAG).commitNow();
-        }
+        if (instance == null)
+            instance = new MayiInstance(activity);
+        else
+            instance.setActivity(activity);
     }
 
     @Override
@@ -193,27 +184,23 @@ public class Mayi implements IPermissionsBuilder, IPermissionsBuilder.Permission
     }
 
     @Override
-    public SinglePermissionListener onPermissionGranted(PermissionResultListener response)
+    public SinglePermissionListener onPermissionResult(PermissionResultListener response)
     {
-        return this;
-    }
-
-    @Override
-    public SinglePermissionListener onPermissionDenied(PermissionResultListener response)
-    {
+        mPermissionsResultListener = response;
         return this;
     }
 
     @Override
     public SinglePermissionListener onPermissionRationaleShouldBeShown(RationaleListener rationale)
     {
+        mRationaleListener = rationale;
         return this;
     }
-
 
     @Override
     public IPermissionsBuilder check()
     {
+        instance.checkPermission(mPermissionsResultListener, mRationaleListener, mPermission);
         return this;
     }
 

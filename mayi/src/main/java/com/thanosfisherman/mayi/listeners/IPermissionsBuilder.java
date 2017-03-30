@@ -19,8 +19,7 @@ public interface IPermissionsBuilder
 
     interface SinglePermissionListener
     {
-        SinglePermissionListener onPermissionGranted(PermissionResultListener response);
-        SinglePermissionListener onPermissionDenied(PermissionResultListener response);
+        SinglePermissionListener onPermissionResult(PermissionResultListener response);
         SinglePermissionListener onPermissionRationaleShouldBeShown(RationaleListener rationale);
         IPermissionsBuilder check();
     }

@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 Log.i("MAIN", "BUTTON CONTACTS CLICKED");
-                Mayi.withActivity(MainActivity.this).withPermission("lelpls").onPermissionGranted(new PermissionResultListener()
+                Mayi.withActivity(MainActivity.this).withPermission("lelpls").onPermissionResult(new PermissionResultListener()
                 {
                     @Override
                     public void permissionResult(PermissionBean permission)

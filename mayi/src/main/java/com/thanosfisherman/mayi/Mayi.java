@@ -1,35 +1,98 @@
 package com.thanosfisherman.mayi;
 
-import android.content.pm.PackageManager;
 import android.support.v4.app.FragmentActivity;
 
-import com.thanosfisherman.mayi.listeners.IPermissionsBuilder;
+import com.thanosfisherman.mayi.listeners.IPermissionListener;
 import com.thanosfisherman.mayi.listeners.MayiErrorListener;
 import com.thanosfisherman.mayi.listeners.PermissionResultListener;
 import com.thanosfisherman.mayi.listeners.RationaleListener;
 
-public class Mayi implements IPermissionsBuilder, IPermissionsBuilder.Permission, IPermissionsBuilder.SinglePermissionListener
+public class Mayi implements IPermissionListener, IPermissionListener.Permission, IPermissionListener.SinglePermissionListener
 {
     private static final String TAG = Mayi.class.getSimpleName();
     private PermissionBean[] mPermissions = null;
     private String mPermission;
     private PermissionResultListener mPermissionsResultListener;
     private RationaleListener mRationaleListener;
-    private MayiInstance instance;
+    private MayiFragment mFrag;
 
     private Mayi(FragmentActivity activity)
     {
         initialize(activity);
     }
 
-    public static IPermissionsBuilder.Permission withActivity(FragmentActivity activity)
+    private void initialize(FragmentActivity activity)
+    {
+        mFrag = (MayiFragment) activity.getSupportFragmentManager().findFragmentByTag(MayiFragment.TAG);
+        if (mFrag == null)
+        {
+            mFrag = new MayiFragment();
+            mFrag.setRetainInstance(true);
+            activity.getSupportFragmentManager().beginTransaction().add(mFrag, MayiFragment.TAG).commitNow();
+        }
+    }
+
+    public static IPermissionListener.Permission withActivity(FragmentActivity activity)
     {
         return new Mayi(activity);
     }
+
+
+    @Override
+    public SinglePermissionListener withPermission(String permission)
+    {
+        mPermission = permission;
+        return this;
+    }
+
+    @Override
+    public SinglePermissionListener onPermissionResult(PermissionResultListener response)
+    {
+        mPermissionsResultListener = response;
+        return this;
+    }
+
+    @Override
+    public SinglePermissionListener onPermissionRationaleShouldBeShown(RationaleListener rationale)
+    {
+        mRationaleListener = rationale;
+        return this;
+    }
+
+    @Override
+    public IPermissionListener onErrorListener(MayiErrorListener errorListener)
+    {
+        return this;
+    }
+
+    @Override
+    public void check()
+    {
+        mFrag.checkPermissions(mPermission);
+    }
+}
+
+
+
  /*   *//**
  * Set the permissions to be checked during  {@link #requestAll(IPermissionsAllListener)}
  *
  * @param permissionsStr - the permissions string array
+ * <p>
+ * Check whether ALL permissions are granded or not.
+ * <p>
+ * Check that all given permissions have been granted by verifying that each entry in the
+ * given array is of the value {@link PackageManager#PERMISSION_GRANTED}.
+ * <p>
+ * Check whether ALL permissions are granded or not.
+ * <p>
+ * Check that all given permissions have been granted by verifying that each entry in the
+ * given array is of the value {@link PackageManager#PERMISSION_GRANTED}.
+ * <p>
+ * Check whether ALL permissions are granded or not.
+ * <p>
+ * Check that all given permissions have been granted by verifying that each entry in the
+ * given array is of the value {@link PackageManager#PERMISSION_GRANTED}.
  *//*
     public Mayi setPermissions(String... permissionsStr)
     {
@@ -99,10 +162,10 @@ public class Mayi implements IPermissionsBuilder, IPermissionsBuilder.Permission
 
     */
 
-    /**
-     * Check that all given permissions have been granted by verifying that each entry in the
-     * given array is of the value {@link PackageManager#PERMISSION_GRANTED}.
-     *//*
+/**
+ * Check that all given permissions have been granted by verifying that each entry in the
+ * given array is of the value {@link PackageManager#PERMISSION_GRANTED}.
+ *//*
     private boolean verifyAllPermissionsFromResult(int[] grantResults, PermissionBean... bean)
     {
         boolean allGranted = true;
@@ -169,44 +232,3 @@ public class Mayi implements IPermissionsBuilder, IPermissionsBuilder.Permission
                 return false;
         return true;
     }*/
-    private void initialize(FragmentActivity activity)
-    {
-        if (instance == null)
-            instance = new MayiInstance(activity);
-        else
-            instance.setActivity(activity);
-    }
-
-    @Override
-    public IPermissionsBuilder withErrorListener(MayiErrorListener errorListener)
-    {
-        return null;
-    }
-
-    @Override
-    public SinglePermissionListener onPermissionResult(PermissionResultListener response)
-    {
-        mPermissionsResultListener = response;
-        return this;
-    }
-
-    @Override
-    public SinglePermissionListener onPermissionRationaleShouldBeShown(RationaleListener rationale)
-    {
-        mRationaleListener = rationale;
-        return this;
-    }
-
-    @Override
-    public IPermissionsBuilder check()
-    {
-        instance.checkPermission(mPermissionsResultListener, mRationaleListener, mPermission);
-        return this;
-    }
-
-    @Override
-    public SinglePermissionListener withPermission(String permission)
-    {
-        return this;
-    }
-}

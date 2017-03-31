@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
                         Log.i("Main", permission.getName());
                         token.continuePermissionRequest();
                     }
-                });
+                }).onErrorListener(null).check();
             }
         });
     }

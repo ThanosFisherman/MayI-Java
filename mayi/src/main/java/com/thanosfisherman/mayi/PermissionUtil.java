@@ -10,7 +10,7 @@ import android.support.v4.content.ContextCompat;
 /**
  * Wrapper class for all the static calls to the Android permission system
  */
-final class PermissionHelper
+final class PermissionUtil
 {
 
     /**

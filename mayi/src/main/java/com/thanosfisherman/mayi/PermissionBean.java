@@ -3,18 +3,19 @@ package com.thanosfisherman.mayi;
 public class PermissionBean
 {
     public final String name;
-    private boolean granted;
+    private boolean isGranted;
     private boolean shouldShowRequestPermissionRationale;
+    private boolean isPermanentlyDenied;
 
     PermissionBean(String name)
     {
         this(name, false, false);
     }
 
-    private PermissionBean(String name, boolean granted, boolean shouldShowRequestPermissionRationale)
+    private PermissionBean(String name, boolean isGranted, boolean shouldShowRequestPermissionRationale)
     {
         this.name = name;
-        this.granted = granted;
+        this.isGranted = isGranted;
         this.shouldShowRequestPermissionRationale = shouldShowRequestPermissionRationale;
     }
 
@@ -28,14 +29,14 @@ public class PermissionBean
 
         final PermissionBean that = (PermissionBean) o;
 
-        return granted == that.granted && shouldShowRequestPermissionRationale == that.shouldShowRequestPermissionRationale && name.equals(that.name);
+        return isGranted == that.isGranted && shouldShowRequestPermissionRationale == that.shouldShowRequestPermissionRationale && name.equals(that.name);
     }
 
     @Override
     public int hashCode()
     {
         int result = name.hashCode();
-        result = 31 * result + (granted ? 1 : 0);
+        result = 31 * result + (isGranted ? 1 : 0);
         result = 31 * result + (shouldShowRequestPermissionRationale ? 1 : 0);
         return result;
     }
@@ -43,11 +44,8 @@ public class PermissionBean
     @Override
     public String toString()
     {
-        return "Permission{" +
-               "name='" + name + '\'' +
-               ", granted=" + granted +
-               ", shouldShowRequestPermissionRationale=" + shouldShowRequestPermissionRationale +
-               '}';
+        return "Permission{" + "name='" + name + '\'' + ", isGranted=" + isGranted + ", shouldShowRequestPermissionRationale=" +
+               shouldShowRequestPermissionRationale + ", isPermanentlyDenied=" + isPermanentlyDenied + '}';
     }
 
     public String getName()
@@ -57,7 +55,7 @@ public class PermissionBean
 
     public boolean isGranted()
     {
-        return granted;
+        return isGranted;
     }
 
     public boolean isShouldShowRequestPermissionRationale()
@@ -67,11 +65,21 @@ public class PermissionBean
 
     void setGranted(boolean granted)
     {
-        this.granted = granted;
+        this.isGranted = granted;
     }
 
     void setShouldShowRequestPermissionRationale(boolean shouldShowRequestPermissionRationale)
     {
         this.shouldShowRequestPermissionRationale = shouldShowRequestPermissionRationale;
+    }
+
+    public boolean isPermanentlyDenied()
+    {
+        return isPermanentlyDenied;
+    }
+
+    public void setPermanentlyDenied(boolean permanentlyDenied)
+    {
+        isPermanentlyDenied = permanentlyDenied;
     }
 }

@@ -1,5 +1,6 @@
 package com.thanosfisherman.mayi.sample;
 
+import android.Manifest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,12 +29,12 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 Log.i("MAIN", "BUTTON CONTACTS CLICKED");
-                Mayi.withActivity(MainActivity.this).withPermission("lelpls").onPermissionResult(new PermissionResultListener()
+                Mayi.withActivity(MainActivity.this).withPermission(Manifest.permission.READ_CONTACTS).onPermissionResult(new PermissionResultListener()
                 {
                     @Override
                     public void permissionResult(PermissionBean permission)
                     {
-                        Log.i("Main", "GRANTED " + permission.getName());
+                        Log.i("Main", "PERMISSION RESULT " + permission.toString());
                     }
                 }).onPermissionRationaleShouldBeShown(new RationaleListener()
                 {

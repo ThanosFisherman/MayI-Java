@@ -1,8 +1,10 @@
 package com.thanosfisherman.mayi;
 
+import android.support.annotation.NonNull;
+
 public class PermissionBean
 {
-    public final String name;
+    @NonNull public final String name;
     private boolean isGranted;
     private boolean shouldShowRequestPermissionRationale;
     private boolean isPermanentlyDenied;
@@ -12,7 +14,7 @@ public class PermissionBean
         this(name, false, false);
     }
 
-    private PermissionBean(String name, boolean isGranted, boolean shouldShowRequestPermissionRationale)
+    private PermissionBean(@NonNull String name, boolean isGranted, boolean shouldShowRequestPermissionRationale)
     {
         this.name = name;
         this.isGranted = isGranted;
@@ -44,13 +46,26 @@ public class PermissionBean
     @Override
     public String toString()
     {
-        return "Permission{" + "name='" + name + '\'' + ", isGranted=" + isGranted + ", shouldShowRequestPermissionRationale=" +
+        return "Permission{" + "name='" + getSimpleName() + "'" + ", isGranted=" + isGranted + ", shouldShowRequestPermissionRationale=" +
                shouldShowRequestPermissionRationale + ", isPermanentlyDenied=" + isPermanentlyDenied + '}';
     }
 
+    @NonNull
     public String getName()
     {
         return name;
+    }
+
+    public String getSimpleName()
+    {
+        try
+        {
+            return name.split("\\.")[2];
+        }
+        catch (ArrayIndexOutOfBoundsException e)
+        {
+            return name;
+        }
     }
 
     public boolean isGranted()
@@ -78,7 +93,7 @@ public class PermissionBean
         return isPermanentlyDenied;
     }
 
-    public void setPermanentlyDenied(boolean permanentlyDenied)
+    void setPermanentlyDenied(boolean permanentlyDenied)
     {
         isPermanentlyDenied = permanentlyDenied;
     }

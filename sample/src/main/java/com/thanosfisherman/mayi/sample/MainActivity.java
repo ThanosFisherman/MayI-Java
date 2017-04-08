@@ -10,8 +10,8 @@ import android.widget.Button;
 import com.thanosfisherman.mayi.Mayi;
 import com.thanosfisherman.mayi.PermissionBean;
 import com.thanosfisherman.mayi.PermissionToken;
-import com.thanosfisherman.mayi.listeners.PermissionResultListener;
-import com.thanosfisherman.mayi.listeners.RationaleListener;
+import com.thanosfisherman.mayi.listeners.single.PermissionResultSingleListener;
+import com.thanosfisherman.mayi.listeners.single.RationaleSingleListener;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -29,19 +29,19 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 Log.i("MAIN", "BUTTON CONTACTS CLICKED");
-                Mayi.withActivity(MainActivity.this).withPermission(Manifest.permission.READ_CONTACTS).onPermissionResult(new PermissionResultListener()
+                Mayi.withActivity(MainActivity.this).withPermission(Manifest.permission.READ_CONTACTS).onPermissionResult(new PermissionResultSingleListener()
                 {
                     @Override
                     public void permissionResult(PermissionBean permission)
                     {
                         Log.i("Main", "PERMISSION RESULT " + permission.toString());
                     }
-                }).onPermissionRationaleShouldBeShown(new RationaleListener()
+                }).onPermissionRationaleShouldBeShown(new RationaleSingleListener()
                 {
                     @Override
-                    public void onRationale(PermissionBean permission, PermissionToken token)
+                    public void onRationale(PermissionToken token)
                     {
-                        Log.i("Main", permission.getName());
+                        Log.i("Main", "show rationale");
                         token.continuePermissionRequest();
                     }
                 }).onErrorListener(null).check();

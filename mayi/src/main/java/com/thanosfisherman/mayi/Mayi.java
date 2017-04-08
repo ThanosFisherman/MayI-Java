@@ -4,19 +4,19 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
-import com.thanosfisherman.mayi.listeners.IPermissionListener;
+import com.thanosfisherman.mayi.listeners.IPermissionBuilder;
 import com.thanosfisherman.mayi.listeners.MayiErrorListener;
-import com.thanosfisherman.mayi.listeners.PermissionResultListener;
-import com.thanosfisherman.mayi.listeners.RationaleListener;
+import com.thanosfisherman.mayi.listeners.single.PermissionResultSingleListener;
+import com.thanosfisherman.mayi.listeners.single.RationaleSingleListener;
 
 import java.lang.ref.WeakReference;
 
-public class Mayi implements IPermissionListener, IPermissionListener.Permission, IPermissionListener.SinglePermissionListener
+public class Mayi implements IPermissionBuilder, IPermissionBuilder.Permission, IPermissionBuilder.SinglePermissionBuilder
 {
     private static final String TAG = Mayi.class.getSimpleName();
     private String mSinglePermission;
-    private PermissionResultListener mPermissionsResultListener;
-    private RationaleListener mRationaleListener;
+    private PermissionResultSingleListener mPermissionsResultListener;
+    private RationaleSingleListener mRationaleSingleListener;
     private MayiErrorListener mErrorListener;
     private MayiFragment mFrag;
     private WeakReference<AppCompatActivity> mActivity;
@@ -26,35 +26,35 @@ public class Mayi implements IPermissionListener, IPermissionListener.Permission
         this.mActivity = new WeakReference<>(activity);
     }
 
-    public static IPermissionListener.Permission withActivity(AppCompatActivity activity)
+    public static IPermissionBuilder.Permission withActivity(AppCompatActivity activity)
     {
         return new Mayi(activity);
     }
 
 
     @Override
-    public SinglePermissionListener withPermission(String permission)
+    public SinglePermissionBuilder withPermission(String permission)
     {
         mSinglePermission = permission;
         return this;
     }
 
     @Override
-    public SinglePermissionListener onPermissionResult(PermissionResultListener response)
+    public SinglePermissionBuilder onPermissionResult(PermissionResultSingleListener response)
     {
         mPermissionsResultListener = response;
         return this;
     }
 
     @Override
-    public SinglePermissionListener onPermissionRationaleShouldBeShown(RationaleListener rationale)
+    public SinglePermissionBuilder onPermissionRationaleShouldBeShown(RationaleSingleListener rationale)
     {
-        mRationaleListener = rationale;
+        mRationaleSingleListener = rationale;
         return this;
     }
 
     @Override
-    public IPermissionListener onErrorListener(MayiErrorListener errorListener)
+    public IPermissionBuilder onErrorListener(MayiErrorListener errorListener)
     {
         mErrorListener = errorListener;
         return this;
@@ -76,7 +76,7 @@ public class Mayi implements IPermissionListener, IPermissionListener.Permission
             else
             {
                 initializeFragment();
-                mFrag.checkPermissions(mSinglePermission);
+                mFrag.checkSinglePermission(mSinglePermission);
             }
 
         }
@@ -102,15 +102,9 @@ public class Mayi implements IPermissionListener, IPermissionListener.Permission
         {
             mFrag = new MayiFragment();
             mFrag.setRetainInstance(true);
-            mFrag.setCallbackListener(new PermissionResultListener()
-            {
-                @Override
-                public void permissionResult(PermissionBean permission)
-                {
-                    mPermissionsResultListener.permissionResult(permission);
-                }
-            });
             mActivity.get().getSupportFragmentManager().beginTransaction().add(mFrag, MayiFragment.TAG).commitNow();
         }
+        mFrag.setCallbackListener(mPermissionsResultListener);
+        mFrag.setRationaleListener(mRationaleSingleListener);
     }
 }

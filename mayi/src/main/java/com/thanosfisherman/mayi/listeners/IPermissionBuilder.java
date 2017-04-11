@@ -1,5 +1,7 @@
 package com.thanosfisherman.mayi.listeners;
 
+import com.thanosfisherman.mayi.listeners.multi.PermissionResultMultiListener;
+import com.thanosfisherman.mayi.listeners.multi.RationaleMultiListener;
 import com.thanosfisherman.mayi.listeners.single.PermissionResultSingleListener;
 import com.thanosfisherman.mayi.listeners.single.RationaleSingleListener;
 
@@ -12,7 +14,7 @@ public interface IPermissionBuilder
     {
         SinglePermissionBuilder withPermission(String permission);
 
-        //IPermissionBuilder.MultiPermissionBuilder withPermissions(String... permissions);
+        IPermissionBuilder.MultiPermissionBuilder withPermissions(String... permissions);
 
         //IPermissionBuilder.MultiPermissionBuilder withPermissions(Collection<String> permissions);
     }
@@ -25,6 +27,7 @@ public interface IPermissionBuilder
 
     interface MultiPermissionBuilder extends IPermissionBuilder
     {
-
+        MultiPermissionBuilder onPermissionResult(PermissionResultMultiListener response);
+        MultiPermissionBuilder onPermissionRationaleShouldBeShown(RationaleMultiListener rationale);
     }
 }

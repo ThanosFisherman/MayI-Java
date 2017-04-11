@@ -10,8 +10,12 @@ import android.widget.Button;
 import com.thanosfisherman.mayi.Mayi;
 import com.thanosfisherman.mayi.PermissionBean;
 import com.thanosfisherman.mayi.PermissionToken;
+import com.thanosfisherman.mayi.listeners.multi.PermissionResultMultiListener;
+import com.thanosfisherman.mayi.listeners.multi.RationaleMultiListener;
 import com.thanosfisherman.mayi.listeners.single.PermissionResultSingleListener;
 import com.thanosfisherman.mayi.listeners.single.RationaleSingleListener;
+
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -45,6 +49,35 @@ public class MainActivity extends AppCompatActivity
                         token.continuePermissionRequest();
                     }
                 }).onErrorListener(null).check();
+            }
+        });
+
+        Button buttonAll = (Button) findViewById(R.id.all_permissions_button);
+        buttonAll.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Mayi.withActivity(MainActivity.this)
+                    .withPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)
+                    .onPermissionRationaleShouldBeShown(new RationaleMultiListener()
+                    {
+                        @Override
+                        public void onRationale(PermissionBean[] permissions, PermissionToken token)
+                        {
+                            Log.i("Main", "Rationales for multiple permissions " + Arrays.deepToString(permissions));
+                        }
+                    })
+                    .onPermissionResult(new PermissionResultMultiListener()
+                    {
+                        @Override
+                        public void permissionResults(PermissionBean[] permissions)
+                        {
+                            Log.i("Main", "MULTI PERMISSIONS RESULT " + Arrays.deepToString(permissions));
+                        }
+                    })
+                    .onErrorListener(null)
+                    .check();
             }
         });
     }

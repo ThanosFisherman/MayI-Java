@@ -38,13 +38,13 @@ class PermissionMatcher
         return isAllGranted;
     }
 
-    String[] getDeniedPermissions()
+    List<String> getDeniedPermissions()
     {
-        return mDeniedPermissions.toArray(new String[mDeniedPermissions.size()]);
+        return mDeniedPermissions;
     }
 
-    String[] getGrantedPermissions()
+    List<String> getGrantedPermissions()
     {
-        return mGrantedPermissions.toArray(new String[mGrantedPermissions.size()]);
+        return mGrantedPermissions;
     }
 }

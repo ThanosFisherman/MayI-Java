@@ -129,7 +129,7 @@ public class Mayi implements IPermissionBuilder,
             else
             {
                 initializeFragment();
-                mFrag.checkPermissions(mPermissions);
+                mFrag.checkPermissions(mPermissions,matcher.getDeniedPermissions(),matcher.getGrantedPermissions());
             }
 
         }

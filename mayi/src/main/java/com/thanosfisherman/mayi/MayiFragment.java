@@ -46,47 +46,49 @@ public class MayiFragment extends Fragment
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
                 return;
             }
-            PermissionBean[] beans = new PermissionBean[permissions.length];
+            final List<PermissionBean> beansResultList = new LinkedList<>();
 
             for (int i = 0; i < permissions.length; i++)
             {
-                beans[i] = new PermissionBean(permissions[i]);
+                beansResultList.add(i, new PermissionBean(permissions[i]));
                 if (grantResults[i] == PackageManager.PERMISSION_DENIED)
                 {
-                    beans[i].setGranted(false);
+                    beansResultList.get(i).setGranted(false);
                     if (shouldShowRequestPermissionRationale(permissions[i]))
                     {
-                        beans[i].setShouldShowRequestPermissionRationale(true);
-                        beans[i].setPermanentlyDenied(false);
+                        beansResultList.get(i).setShouldShowRequestPermissionRationale(true);
+                        beansResultList.get(i).setPermanentlyDenied(false);
                     }
                     else
                     {
-                        beans[i].setShouldShowRequestPermissionRationale(false);
-                        beans[i].setPermanentlyDenied(true);
+                        beansResultList.get(i).setShouldShowRequestPermissionRationale(false);
+                        beansResultList.get(i).setPermanentlyDenied(true);
                     }
                 }
                 else
                 {
-                    beans[i].setGranted(true);
-                    beans[i].setShouldShowRequestPermissionRationale(false);
-                    beans[i].setPermanentlyDenied(false);
+                    beansResultList.get(i).setGranted(true);
+                    beansResultList.get(i).setShouldShowRequestPermissionRationale(false);
+                    beansResultList.get(i).setPermanentlyDenied(false);
                 }
             }
 
             if (mPermissionResultListener != null)
-                mPermissionResultListener.permissionResult(beans[0]);
+                mPermissionResultListener.permissionResult(beansResultList.get(0));
             else if (mPermissionsResultMultiListener != null)
             {
-                //TODO: the whole shit below is wrong
-                final List<PermissionBean> totalBeanList = new LinkedList<>();
-                for (String perm : mPermissions)
+                final List<PermissionBean> beansTotal = new LinkedList<>();
+                for (String perm : mGrantedPermissions)
                 {
-                    PermissionBean bean = new PermissionBean(perm);
+                    final PermissionBean bean = new PermissionBean(perm);
                     bean.setGranted(true);
+                    bean.setPermanentlyDenied(false);
+                    bean.setShouldShowRequestPermissionRationale(false);
+                    beansTotal.add(bean);
                 }
-
+                beansTotal.addAll(beansResultList);
+                mPermissionsResultMultiListener.permissionResults(beansTotal.toArray(new PermissionBean[beansTotal.size()]));
             }
-
         }
     }
 

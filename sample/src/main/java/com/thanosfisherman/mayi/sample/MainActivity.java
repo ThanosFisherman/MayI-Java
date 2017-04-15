@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
                     public void onRationale(PermissionToken token)
                     {
                         Log.i("Main", "show rationale");
-                        token.continuePermissionRequest();
+                        token.cancelPermissionRequest();
                     }
                 }).onErrorListener(null).check();
             }
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity
                         public void onRationale(PermissionBean[] permissions, PermissionToken token)
                         {
                             Log.i("Main", "Rationales for multiple permissions " + Arrays.deepToString(permissions));
+                            token.continuePermissionRequest();
                         }
                     })
                     .onPermissionResult(new PermissionResultMultiListener()

@@ -3,5 +3,5 @@ package com.thanosfisherman.mayi.listeners;
 
 public interface MayiErrorListener
 {
-    void onError();
+    void onError(Exception e);
 }

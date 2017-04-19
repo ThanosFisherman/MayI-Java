@@ -1,8 +1,8 @@
 package com.thanosfisherman.mayi.sample;
 
 import android.Manifest;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.thanosfisherman.mayi.Mayi;
 import com.thanosfisherman.mayi.PermissionBean;
 import com.thanosfisherman.mayi.PermissionToken;
+import com.thanosfisherman.mayi.listeners.MayiErrorListener;
 import com.thanosfisherman.mayi.listeners.multi.PermissionResultMultiListener;
 import com.thanosfisherman.mayi.listeners.multi.RationaleMultiListener;
 import com.thanosfisherman.mayi.listeners.single.PermissionResultSingleListener;
@@ -48,7 +49,14 @@ public class MainActivity extends AppCompatActivity
                         Log.i("Main", "show rationale");
                         token.cancelPermissionRequest();
                     }
-                }).onErrorListener(null).check();
+                }).onErrorListener(new MayiErrorListener()
+                {
+                    @Override
+                    public void onError(Exception e)
+                    {
+                        Log.e("Main", e.toString());
+                    }
+                }).check();
             }
         });
 
@@ -77,7 +85,14 @@ public class MainActivity extends AppCompatActivity
                             Log.i("Main", "MULTI PERMISSIONS RESULT " + Arrays.deepToString(permissions));
                         }
                     })
-                    .onErrorListener(null)
+                    .onErrorListener(new MayiErrorListener()
+                    {
+                        @Override
+                        public void onError(Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    })
                     .check();
             }
         });

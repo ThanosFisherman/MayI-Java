@@ -1,5 +1,6 @@
 package com.thanosfisherman.mayi;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
@@ -11,6 +12,7 @@ import com.thanosfisherman.mayi.listeners.single.PermissionResultSingleListener;
 import com.thanosfisherman.mayi.listeners.single.RationaleSingleListener;
 
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
 
 public class Mayi implements IPermissionBuilder,
                              IPermissionBuilder.Permission,
@@ -18,7 +20,7 @@ public class Mayi implements IPermissionBuilder,
                              IPermissionBuilder.MultiPermissionBuilder
 {
     private static final String TAG = Mayi.class.getSimpleName();
-    private String[] mPermissions;
+    @NonNull private String[] mPermissions;
     @Nullable private PermissionResultSingleListener mPermissionResultListener;
     @Nullable private RationaleSingleListener mRationaleSingleListener;
     @Nullable private PermissionResultMultiListener mPermissionsResultMultiListener;
@@ -108,6 +110,10 @@ public class Mayi implements IPermissionBuilder,
     {
         try
         {
+            if (mPermissions == null || mPermissions.length == 0)
+                throw new IllegalArgumentException("You must specify at least one valid permission to check");
+            if (Arrays.asList(mPermissions).contains(null))
+                throw new IllegalArgumentException("Permssions arguments must NOT contain null values");
             final PermissionMatcher matcher = new PermissionMatcher(mPermissions, mActivity);
             if (matcher.areAllPermissionsGranted())
             {
@@ -129,14 +135,16 @@ public class Mayi implements IPermissionBuilder,
             else
             {
                 initializeFragment();
-                mFrag.checkPermissions(mPermissions,matcher.getDeniedPermissions(),matcher.getGrantedPermissions());
+                mFrag.checkPermissions(mPermissions, matcher.getDeniedPermissions(), matcher.getGrantedPermissions());
             }
 
         }
         catch (Exception e)
         {
             if (mErrorListener != null)
-                mErrorListener.onError();
+                mErrorListener.onError(e);
+            else
+                throw new IllegalArgumentException("You must specify at least one permission to check");
         }
     }
 

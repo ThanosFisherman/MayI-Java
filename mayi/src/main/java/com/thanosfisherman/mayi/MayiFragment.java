@@ -26,7 +26,7 @@ public class MayiFragment extends Fragment
     @Nullable private PermissionResultMultiListener mPermissionsResultMultiListener;
     @Nullable private RationaleMultiListener mRationaleMultiListener;
     private List<String> mDeniedPermissions, mGrantedPermissions, mRationalePermissions;
-    private String[] mPermissions;
+    @NonNull private String[] mPermissions;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)

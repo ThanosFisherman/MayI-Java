@@ -42,10 +42,7 @@ public class MayiFragment extends Fragment
         if (requestCode == PERMISSION_REQUEST_CODE)
         {
             if (grantResults.length == 0)
-            {
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
                 return;
-            }
             final List<PermissionBean> beansResultList = new LinkedList<>();
 
             for (int i = 0; i < permissions.length; i++)

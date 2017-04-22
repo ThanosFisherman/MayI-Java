@@ -21,13 +21,13 @@ public interface IPermissionBuilder
 
     interface SinglePermissionBuilder extends IPermissionBuilder
     {
-        SinglePermissionBuilder onPermissionResult(PermissionResultSingleListener response);
-        SinglePermissionBuilder onPermissionRationaleShouldBeShown(RationaleSingleListener rationale);
+        SinglePermissionBuilder onResult(PermissionResultSingleListener response);
+        SinglePermissionBuilder onRationale(RationaleSingleListener rationale);
     }
 
     interface MultiPermissionBuilder extends IPermissionBuilder
     {
-        MultiPermissionBuilder onPermissionResult(PermissionResultMultiListener response);
-        MultiPermissionBuilder onPermissionRationaleShouldBeShown(RationaleMultiListener rationale);
+        MultiPermissionBuilder onResult(PermissionResultMultiListener response);
+        MultiPermissionBuilder onRationale(RationaleMultiListener rationale);
     }
 }

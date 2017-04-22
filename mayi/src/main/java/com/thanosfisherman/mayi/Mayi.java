@@ -55,7 +55,7 @@ public class Mayi implements IPermissionBuilder,
     }
 
     @Override
-    public SinglePermissionBuilder onPermissionResult(PermissionResultSingleListener response)
+    public SinglePermissionBuilder onResult(PermissionResultSingleListener response)
     {
         if (!isResultCalled)
         {
@@ -66,7 +66,7 @@ public class Mayi implements IPermissionBuilder,
     }
 
     @Override
-    public SinglePermissionBuilder onPermissionRationaleShouldBeShown(RationaleSingleListener rationale)
+    public SinglePermissionBuilder onRationale(RationaleSingleListener rationale)
     {
         if (!isRationaleCalled)
         {
@@ -77,7 +77,7 @@ public class Mayi implements IPermissionBuilder,
     }
 
     @Override
-    public MultiPermissionBuilder onPermissionResult(PermissionResultMultiListener response)
+    public MultiPermissionBuilder onResult(PermissionResultMultiListener response)
     {
         if (!isResultCalled)
         {
@@ -88,7 +88,7 @@ public class Mayi implements IPermissionBuilder,
     }
 
     @Override
-    public MultiPermissionBuilder onPermissionRationaleShouldBeShown(RationaleMultiListener rationale)
+    public MultiPermissionBuilder onRationale(RationaleMultiListener rationale)
     {
         if (!isRationaleCalled)
         {

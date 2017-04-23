@@ -1,14 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+
+group = 'com.thanosfisherman.mayi'
+version = rootProject.ext.publishVersionName
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.publishVersionCode
+        versionName rootProject.ext.publishVersionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -19,6 +23,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        encoding "UTF-8"
+        sourceCompatibility rootProject.ext.sourceCompatibilityVersion
+        targetCompatibility rootProject.ext.targetCompatibilityVersion
+    }
 }
 
 dependencies {
@@ -26,6 +36,35 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibrariesVersion"
     testCompile 'junit:junit:4.12'
+}
+
+if (project.rootProject.file("local.properties").exists()) {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+    bintray {
+        user = properties.getProperty("bintray.user")
+        key = properties.getProperty("bintray.apikey")
+        configurations = ['archives']
+        dryRun = false
+        publish = true
+
+        pkg {
+            repo = "maven"
+            name = "mayi"
+            desc = 'Yet another runtime permission library for Android'
+            websiteUrl = 'https://github.com/ThanosFisherman/MayI'
+            vcsUrl = 'https://github.com/ThanosFisherman/MayI.git'
+            licenses = ["Apache-2.0"]
+            version {
+                name = rootProject.ext.publishVersionName
+                desc = 'MayI current version'
+                released = new Date()
+                vcsTag = rootProject.ext.publishVersionName
+                //attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+            }
+        }
+    }
 }

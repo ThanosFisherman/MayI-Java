@@ -25,8 +25,8 @@ public MainActivity extends AppCompatActivity
 	@Override 
 	public void onCreate() 
 	{
-		super.onCreate();
-		Mayi.withActivity(MainActivity.this)
+	 super.onCreate();
+	 Mayi.withActivity(MainActivity.this)
             .withPermission(Manifest.permission.READ_CONTACTS)
             .onResult(permission -> permissionResultSingle(permission))
             .onRationale(token -> permissionRationaleSingle(token))
@@ -59,8 +59,8 @@ public MainActivity extends AppCompatActivity
 	@Override 
 	public void onCreate() 
 	{
-		super.onCreate();
-		Mayi.withActivity(this)
+	 super.onCreate();
+	 Mayi.withActivity(this)
             .withPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)
             .onRationale(this::permissionRationaleMulti)
             .onResult(this::permissionResultMulti)

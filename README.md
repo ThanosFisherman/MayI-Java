@@ -99,7 +99,7 @@ private void inCaseOfError(Exception e)
     Toast.makeText(MainActivity.this, "ERROR " + e.toString(), Toast.LENGTH_SHORT).show();
 }
 ```
-The library will then notify you when something bad happens.
+The library will then notify you when something unexpected happens.
 
 Remember to follow the [Google design guidelines][1] to make your application as user-friendly as possible.
 

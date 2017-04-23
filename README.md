@@ -110,14 +110,14 @@ A gradle dependency will be available soon.
 
 Library Flow
 ------------
-* The first time this library runs the system permission promt will appear asking for the user to either deny or allow the permission.
-next `onResult()` method will be called that includes the result of the user's choice.
-* If user denied the permission the first time (but didn't check "don't show again" option) then then next time this library runs `onRationale` method will be called. Inside `onRationale` method
+* The first time this library runs, system permission promt will appear asking for the user to either deny or allow the permission.
+Next `onResult()` method will be called that includes the result of the user's choice.
+* If user denied the permission the first time (but didn't check "don't ask again" option) then then next time this library runs `onRationale` method will be called. Inside `onRationale` method
  you now have 3 options. 
     * call `continuePermissionRequest()` method which shows again system dialog prompt and then calls `onResult()` that includes the user's choice.
     * call `cancelPermissionRequest()` method which will skip showing system dialog prompt and immediately call `onResult()` that includes the user's choice.
     * do nothing which will terminate the flow after `onRationale` finishes its execution.
-* If user denied the permission by checking _"don't show again"_ then `onResult()` will be called that includes the result of the user's choice.
+* If user denied the permission by checking _"don't ask again"_ then `onResult()` will be called that includes the result of the user's choice.
 
 below is a flow chart that visualizes the library's flow described above.
 <img src="mayi_flow.png" alt="mayi flow" title="flow chart" width="680px" height="788px"/>

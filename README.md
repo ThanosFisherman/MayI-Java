@@ -119,8 +119,8 @@ next `onResult()` method will be called that includes the result of the user's c
     * do nothing which will terminate the flow after `onRationale` finishes its execution.
 * If user denied the permission by checking _"don't show again"_ then `onResult()` will be called that includes the result of the user's choice.
 
-below is a flow chart that shows the flow described above.
-<img src="mayi_flow.png" alt="mayi flow" title="flow chart" width="480px" height="556px">
+below is a flow chart that visualizes the library's flow described above.
+<img src="mayi_flow.png" alt="mayi flow" title="flow chart" width="680px" height="788px"/>
 
 Contributing?
 --------------------------

@@ -100,8 +100,7 @@ private void inCaseOfError(Exception e)
 }
 ```
 The library will then notify you when something bad happens.
-
-**IMPORTANT**: Remember to follow the [Google design guidelines][1] to make your application as user-friendly as possible.
+Remember to follow the [Google design guidelines][1] to make your application as user-friendly as possible.
 
 
 Add it to your project

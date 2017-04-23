@@ -25,8 +25,8 @@ public MainActivity extends AppCompatActivity
 	@Override 
 	public void onCreate() 
 	{
-	 super.onCreate();
-	 Mayi.withActivity(MainActivity.this)
+	    super.onCreate();
+	    Mayi.withActivity(MainActivity.this)
             .withPermission(Manifest.permission.READ_CONTACTS)
             .onResult(permission -> permissionResultSingle(permission))
             .onRationale(token -> permissionRationaleSingle(token))
@@ -39,15 +39,15 @@ public MainActivity extends AppCompatActivity
 
 ```java
  private void permissionResultSingle(PermissionBean permission)
-    {
-        Toast.makeText(MainActivity.this, "PERMISSION RESULT " + permission.toString(), Toast.LENGTH_LONG).show();
-    }
-
-    private void permissionRationaleSingle(PermissionToken token)
-    {
-        Toast.makeText(MainActivity.this, "Should show rationale for Contacts permission", Toast.LENGTH_LONG).show();
-        token.cancelPermissionRequest();
-    }
+ {
+     Toast.makeText(MainActivity.this, "PERMISSION RESULT " + permission.toString(), Toast.LENGTH_LONG).show();
+ }
+ 
+ private void permissionRationaleSingle(PermissionToken token)
+ {
+     Toast.makeText(MainActivity.this, "Should show rationale for Contacts permission", Toast.LENGTH_LONG).show();
+     token.cancelPermissionRequest();
+ }
 ```
 ### Multiple Permissions
 Similarly to request **multiple permissions** at once just need to call `Mayi` with a valid `AppCompatActivity` but this time use `withPermissions` method. Furthermore
@@ -59,8 +59,8 @@ public MainActivity extends AppCompatActivity
 	@Override 
 	public void onCreate() 
 	{
-	 super.onCreate();
-	 Mayi.withActivity(this)
+	    super.onCreate();
+	    Mayi.withActivity(this)
             .withPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)
             .onRationale(this::permissionRationaleMulti)
             .onResult(this::permissionResultMulti)
@@ -71,23 +71,23 @@ public MainActivity extends AppCompatActivity
 Again possible custom-defined methods for the above example could be something like:
 
 ```java
- private void permissionResultMulti(PermissionBean[] permissions)
-    {
-        Toast.makeText(MainActivity.this, "MULTI PERMISSION RESULT " + Arrays.deepToString(permissions), Toast.LENGTH_LONG).show();
-    }
+private void permissionResultMulti(PermissionBean[] permissions)
+{
+    Toast.makeText(MainActivity.this, "MULTI PERMISSION RESULT " + Arrays.deepToString(permissions), Toast.LENGTH_LONG).show();
+}
 
-    private void permissionRationaleMulti(PermissionBean[] permissions, PermissionToken token)
-    {
-        Toast.makeText(MainActivity.this, "Rationales for Multiple Permissions " + Arrays.deepToString(permissions), Toast.LENGTH_LONG).show();
-        token.continuePermissionRequest();
-    }
+private void permissionRationaleMulti(PermissionBean[] permissions, PermissionToken token)
+{
+    Toast.makeText(MainActivity.this, "Rationales for Multiple Permissions " + Arrays.deepToString(permissions), Toast.LENGTH_LONG).show();
+    token.continuePermissionRequest();
+}
 ```
 
 ### Error handling
 If you think there is going to be an error in your Mayi integration, just call a `onErrorListener`:
 
 ```java
-Mayi.withActivity(this)
+    Mayi.withActivity(this)
     .withPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)
     .onRationale(this::permissionRationaleMulti)
     .onResult(this::permissionResultMulti)

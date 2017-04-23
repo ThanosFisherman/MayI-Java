@@ -82,6 +82,7 @@ private void permissionRationaleMulti(PermissionBean[] permissions, PermissionTo
     token.continuePermissionRequest();
 }
 ```
+**NOTE:** All these examples are using [Retrolambda](https://github.com/evant/gradle-retrolambda) plugin to make the whole code more compact. You are not required to use it if you don't want to.
 
 ### Error handling
 If you think there is going to be an error in your Mayi integration, just call a `onErrorListener`:
@@ -100,9 +101,6 @@ private void inCaseOfError(Exception e)
 }
 ```
 The library will then notify you when something unexpected happens.
-
-Remember to follow the [Google design guidelines][1] to make your application as user-friendly as possible.
-
 
 Add it to your project
 ----------------------
@@ -143,6 +141,4 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-    
-[1]: http://www.google.es/design/spec/patterns/permissions.html
 

@@ -50,7 +50,7 @@ public MainActivity extends AppCompatActivity
  }
 ```
 ### Multiple Permissions
-Similarly to request **multiple permissions** at once just need to call `Mayi` with a valid `AppCompatActivity` but this time use `withPermissions` method. Furthermore
+Similarly to request **multiple permissions** at once you just need to call `Mayi` with a valid `AppCompatActivity` but this time use `withPermissions` method to specify more than one permissions. Furthermore
 the lambda expressions from the example above could be replaced with method references like so:
 
 ```java

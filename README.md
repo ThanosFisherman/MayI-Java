@@ -82,7 +82,7 @@ private void permissionRationaleMulti(PermissionBean[] permissions, PermissionTo
     token.continuePermissionRequest();
 }
 ```
-**NOTE:** All these examples are using [Retrolambda](https://github.com/evant/gradle-retrolambda) plugin to make the whole code more compact. You are not required to use it if you don't want to.
+**NOTE:** All of the examples presented here, use [Retrolambda](https://github.com/evant/gradle-retrolambda) plugin to make the whole code more compact. You are not required to use it if you don't want to.
 
 ### Error handling
 If you think there is going to be an error in your Mayi integration, just call a `onErrorListener`:

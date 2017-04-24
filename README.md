@@ -104,7 +104,25 @@ The library will then notify you when something unexpected happens.
 
 Add it to your project
 ----------------------
-A gradle dependency will be available soon.
+_Note:_ This is a temporary solution until I sync the library with JCenter.
+
+Add the following to your **top level** `build.gradle` file
+```groovy
+allprojects {
+    repositories {
+        jcenter()
+        maven {
+            url 'https://dl.bintray.com/thanosfisherman/maven/'
+        }
+    }
+}
+```
+Then add the following to your **app module** `build.gradle` file
+```groovy
+dependencies {
+   compile 'com.thanosfisherman.mayi:mayi:1.0@aar'
+}
+```
 
 Library Flow
 ------------

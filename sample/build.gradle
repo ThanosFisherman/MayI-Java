@@ -33,6 +33,7 @@ dependencies {
     })
     compile project(':mayi')
     //compile 'com.thanosfisherman.mayi:mayi:1.0@aar'
+    //compile 'com.thanosfisherman.mayi:mayi:1.0'
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibrariesVersion"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'

@@ -49,6 +49,7 @@ public MainActivity extends AppCompatActivity
      token.cancelPermissionRequest();
  }
 ```
+
 ### Multiple Permissions
 Similarly to request **multiple permissions** at once you just need to call `Mayi` with a valid `AppCompatActivity` but this time use `withPermissions` method to specify more than one permissions. Furthermore
 the lambda expressions from the example above could be replaced with method references like so:
@@ -68,6 +69,7 @@ public MainActivity extends AppCompatActivity
 	}
 }
 ```
+
 Again possible custom-defined methods for the above example could be something like:
 
 ```java
@@ -82,6 +84,7 @@ private void permissionRationaleMulti(PermissionBean[] permissions, PermissionTo
     token.continuePermissionRequest();
 }
 ```
+
 **NOTE:** All of the examples presented here, use [Retrolambda](https://github.com/evant/gradle-retrolambda) plugin to make the whole code more compact. You are not required to use it if you don't want to.
 
 ### Error handling
@@ -100,6 +103,7 @@ private void inCaseOfError(Exception e)
     Toast.makeText(MainActivity.this, "ERROR " + e.toString(), Toast.LENGTH_SHORT).show();
 }
 ```
+
 The library will then notify you when something unexpected happens.
 
 Add it to your project
@@ -118,20 +122,21 @@ Library Flow
 ------------
 * The first time this library runs, system permission promt will appear asking for the user to either deny or allow the permission.
 Next `onResult()` method will be called that includes the result of the user's choice.
-* If user denied the permission the first time (but didn't check "don't ask again" option) then next time this library runs `onRationale` method will be called. Inside `onRationale` method
- you now have 3 options. 
-    * call `continuePermissionRequest()` method which shows again system dialog prompt and then calls `onResult()` that includes the user's choice.
-    * call `cancelPermissionRequest()` method which will skip showing system dialog prompt and immediately call `onResult()` that includes the user's choice.
-    * do nothing which will terminate the flow after `onRationale` finishes its execution.
+* If user denied the permission the first time (but didn't check "don't ask again" option) then `onRationale` will be the first method to be called next
+time this library runs. Inside `onRationale` method you now have 3 options. 
+    * Call `token.continuePermissionRequest()` method which shows again system dialog prompt and then calls `onResult()` that includes the user's choice.
+    * Call `token.cancelPermissionRequest()` method which will skip showing system dialog prompt and immediately call `onResult()` that includes the user's choice.
+    * Call none of the 2 above thus terminating the flow after `onRationale` finishes its execution.
 * If user denied the permission by checking _"don't ask again"_ then `onResult()` will be called that includes the result of the user's choice.
 
 below is a flow chart that visualizes the library's flow described above.
+
 <img src="mayi_flow.png" alt="mayi flow" title="flow chart" width="680px" height="788px"/>
 
 Contributing?
 --------------------------
 
-Feel free to add/correct something to this library, I will be glad to improve it with your help.
+Feel free to add/correct/fix something to this library, I will be glad to improve it with your help.
 
 License
 -------

@@ -104,23 +104,11 @@ The library will then notify you when something unexpected happens.
 
 Add it to your project
 ----------------------
-_Note:_ This is a temporary solution until I sync the library with JCenter.
-
-Add the following to your **top level** `build.gradle` file
-```groovy
-allprojects {
-    repositories {
-        jcenter()
-        maven {
-            url 'https://dl.bintray.com/thanosfisherman/maven/'
-        }
-    }
-}
-```
-Then add the following to your **app module** `build.gradle` file
+[![Download](https://api.bintray.com/packages/thanosfisherman/maven/mayi/images/download.svg)](https://bintray.com/thanosfisherman/maven/mayi/_latestVersion)
+Add the following to your **app module** `build.gradle` file
 ```groovy
 dependencies {
-   compile 'com.thanosfisherman.mayi:mayi:1.0@aar'
+   compile 'com.thanosfisherman.mayi:mayi:1.0'
 }
 ```
 
@@ -145,7 +133,7 @@ Feel free to add/correct something to this library, I will be glad to improve it
 
 License
 -------
-
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0.html)
     Copyright 2017 Thanos Psaridis
 
     Licensed under the Apache License, Version 2.0 (the "License");

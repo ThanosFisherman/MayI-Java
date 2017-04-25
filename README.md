@@ -118,7 +118,7 @@ Library Flow
 ------------
 * The first time this library runs, system permission promt will appear asking for the user to either deny or allow the permission.
 Next `onResult()` method will be called that includes the result of the user's choice.
-* If user denied the permission the first time (but didn't check "don't ask again" option) then then next time this library runs `onRationale` method will be called. Inside `onRationale` method
+* If user denied the permission the first time (but didn't check "don't ask again" option) then next time this library runs `onRationale` method will be called. Inside `onRationale` method
  you now have 3 options. 
     * call `continuePermissionRequest()` method which shows again system dialog prompt and then calls `onResult()` that includes the user's choice.
     * call `cancelPermissionRequest()` method which will skip showing system dialog prompt and immediately call `onResult()` that includes the user's choice.

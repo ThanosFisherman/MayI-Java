@@ -3,6 +3,7 @@ package com.thanosfisherman.mayi.sample;
 import android.Manifest;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -35,6 +36,13 @@ public class MainActivity extends AppCompatActivity
                                               .onResult(this::permissionResultMulti)
                                               .onErrorListener(this::inCaseOfError)
                                               .check());
+
+        Button buttonLocation = (Button) findViewById(R.id.location_permission_button);
+        buttonLocation.setOnClickListener(v -> Mayi.withActivity(this)
+                                                   .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                                                   .onResult(this::permissionResultSingle)
+                                                   .onRationale(this::permissionRationaleSingle)
+                                                   .check());
     }
 
     private void permissionResultSingle(PermissionBean permission)

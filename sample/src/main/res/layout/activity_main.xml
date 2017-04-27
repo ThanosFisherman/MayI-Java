@@ -26,8 +26,8 @@
         android:layout_height="@dimen/button_height"
         android:text="@string/ask_for_contacts_permission_button"
         android:layout_below="@+id/camera_permission_button"
-        android:layout_alignLeft="@+id/audio_permission_button"
-        android:layout_alignStart="@+id/audio_permission_button"/>
+        android:layout_alignLeft="@+id/location_permission_button"
+        android:layout_alignStart="@+id/location_permission_button"/>
 
     <Button
         android:id="@+id/camera_permission_button"
@@ -40,12 +40,12 @@
         android:layout_alignStart="@+id/contacts_permission_button"/>
 
     <Button
-        android:id="@+id/audio_permission_button"
+        android:id="@+id/location_permission_button"
         android:layout_width="@dimen/button_width"
         android:layout_height="@dimen/button_height"
         android:layout_below="@id/contacts_permission_button"
         android:layout_centerHorizontal="true"
-        android:text="@string/ask_for_audio_permission_button"
+        android:text="@string/ask_for_location_permission_button"
         />
 
     <Button
@@ -54,8 +54,8 @@
         android:layout_height="@dimen/button_height"
         android:text="@string/ask_for_all_permissions_button"
         android:layout_marginTop="27dp"
-        android:layout_below="@+id/audio_permission_button"
-        android:layout_alignLeft="@+id/audio_permission_button"
-        android:layout_alignStart="@+id/audio_permission_button"/>
+        android:layout_below="@+id/location_permission_button"
+        android:layout_alignLeft="@+id/location_permission_button"
+        android:layout_alignStart="@+id/location_permission_button"/>
 
 </RelativeLayout>

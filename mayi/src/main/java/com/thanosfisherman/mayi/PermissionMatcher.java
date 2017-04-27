@@ -1,8 +1,9 @@
 package com.thanosfisherman.mayi;
 
+import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
@@ -13,7 +14,8 @@ class PermissionMatcher
     private List<String> mDeniedPermissions, mGrantedPermissions;
     private boolean isAllGranted = true;
 
-    PermissionMatcher(String[] permissions, WeakReference<AppCompatActivity> activity)
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    PermissionMatcher(String[] permissions, WeakReference<Activity> activity)
     {
         if (permissions == null || permissions.length <= 0)
             throw new RuntimeException("You must have at least 1 permission specified");
@@ -21,7 +23,7 @@ class PermissionMatcher
         this.mGrantedPermissions = new LinkedList<>();
         for (String perm : permissions)
         {
-            if (ActivityCompat.checkSelfPermission(activity.get(), perm) != PackageManager.PERMISSION_GRANTED)
+            if (activity.get().checkSelfPermission(perm) != PackageManager.PERMISSION_GRANTED)
             {
                 mDeniedPermissions.add(perm);
                 isAllGranted = false;

@@ -1,10 +1,12 @@
 package com.thanosfisherman.mayi;
 
+import android.app.Fragment;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.thanosfisherman.mayi.listeners.multi.PermissionResultMultiListener;
@@ -16,7 +18,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class MayiFragment extends Fragment
 {
     public static final String TAG = MayiFragment.class.getSimpleName();
@@ -25,16 +26,17 @@ public class MayiFragment extends Fragment
     @Nullable private RationaleSingleListener mRationaleSingleListener;
     @Nullable private PermissionResultMultiListener mPermissionsResultMultiListener;
     @Nullable private RationaleMultiListener mRationaleMultiListener;
-    private List<String> mDeniedPermissions, mGrantedPermissions, mRationalePermissions;
-    @NonNull private String[] mPermissions;
+    private List<String> mDeniedPermissions, mGrantedPermissions, mRationalePermissions = new LinkedList<>();
+    private String[] mPermissions;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        mRationalePermissions = new LinkedList<>();
+        //mRationalePermissions = new LinkedList<>();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
@@ -89,6 +91,7 @@ public class MayiFragment extends Fragment
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     void checkPermissions(@NonNull String[] allPermissions, @NonNull List<String> deniedPermissions, @NonNull List<String> grantedPermissions)
     {
         mPermissions = allPermissions;
@@ -120,6 +123,7 @@ public class MayiFragment extends Fragment
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     void onContinuePermissionRequest()
     {
         Log.i(TAG, "Continue with request");
@@ -167,7 +171,6 @@ public class MayiFragment extends Fragment
                     bean.setPermanentlyDenied(true);
                     totalBeanList.add(bean);
                 }
-
             }
             mPermissionsResultMultiListener.permissionResults(totalBeanList.toArray(new PermissionBean[totalBeanList.size()]));
         }

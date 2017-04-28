@@ -130,7 +130,7 @@ public class MayiFragment extends Fragment
         requestPermissions(mDeniedPermissions.toArray(new String[mDeniedPermissions.size()]), PERMISSION_REQUEST_CODE);
     }
 
-    void onCancelPermissionRequest()
+    void onSkipPermissionRequest()
     {
         final List<PermissionBean> totalBeanList = new LinkedList<>();
 

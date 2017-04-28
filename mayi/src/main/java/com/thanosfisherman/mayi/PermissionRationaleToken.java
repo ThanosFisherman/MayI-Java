@@ -1,5 +1,8 @@
 package com.thanosfisherman.mayi;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 final class PermissionRationaleToken implements PermissionToken
 {
     private final MayiFragment mayiFragment;
@@ -10,6 +13,7 @@ final class PermissionRationaleToken implements PermissionToken
         this.mayiFragment = mayiFragment;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void continuePermissionRequest()
     {
@@ -21,11 +25,11 @@ final class PermissionRationaleToken implements PermissionToken
     }
 
     @Override
-    public void cancelPermissionRequest()
+    public void skipPermissionRequest()
     {
         if (!isTokenResolved)
         {
-            mayiFragment.onCancelPermissionRequest();
+            mayiFragment.onSkipPermissionRequest();
             isTokenResolved = true;
         }
     }

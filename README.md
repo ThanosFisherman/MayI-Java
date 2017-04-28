@@ -46,7 +46,7 @@ public MainActivity extends AppCompatActivity
  private void permissionRationaleSingle(PermissionToken token)
  {
      Toast.makeText(MainActivity.this, "Should show rationale for Contacts permission", Toast.LENGTH_LONG).show();
-     token.cancelPermissionRequest();
+     token.skipPermissionRequest();
  }
 ```
 
@@ -114,7 +114,7 @@ Add the following to your **app module** `build.gradle` file
 
 ```groovy
 dependencies {
-   compile 'com.thanosfisherman.mayi:mayi:1.1'
+   compile 'com.thanosfisherman.mayi:mayi:1.2'
 }
 ```
 
@@ -125,13 +125,13 @@ Next `onResult()` method will be called that includes the result of the user's c
 * If user denied the permission the first time (but didn't check "don't ask again" option) then `onRationale` will be the first method to be called next
 time this library runs. Inside `onRationale` method you now have 3 options. 
     * Call `token.continuePermissionRequest()` method which shows again system dialog prompt and then calls `onResult()` that includes the user's choice.
-    * Call `token.cancelPermissionRequest()` method which will skip showing system dialog prompt and immediately call `onResult()` that includes the user's choice.
+    * Call `token.skipPermissionRequest()` method which will skip showing system dialog prompt and immediately call `onResult()` that includes the user's choice.
     * Call none of the 2 above thus terminating the flow after `onRationale` finishes its execution.
 * If user denied the permission by checking _"don't ask again"_ then `onResult()` will be called that includes the result of the user's choice.
 
 below is a flow chart that visualizes the library's flow described above.
 
-<img src="mayi_flow.png" alt="mayi flow" title="flow chart" width="680px" height="788px"/>
+<img src="mayi_flow.png" alt="mayi flow" title="flow chart" style="width: auto; height: auto; max-width: 680px; max-height: 788px"/>
 
 Contributing?
 --------------------------

@@ -3,7 +3,6 @@ package com.thanosfisherman.mayi.sample;
 import android.Manifest;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity
     private void permissionRationaleSingle(PermissionToken token)
     {
         Toast.makeText(MainActivity.this, "Should show rationale for Contacts permission", Toast.LENGTH_LONG).show();
-        token.cancelPermissionRequest();
+        token.skipPermissionRequest();
     }
 
     private void permissionResultMulti(PermissionBean[] permissions)

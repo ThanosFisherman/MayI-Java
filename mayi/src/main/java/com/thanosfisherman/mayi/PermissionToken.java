@@ -30,5 +30,5 @@ public interface PermissionToken {
   /**
    * Cancels the permission request process
    */
-  void cancelPermissionRequest();
+  void skipPermissionRequest();
 }

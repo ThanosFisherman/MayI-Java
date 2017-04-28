@@ -7,14 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.thanosfisherman.mayi.listeners.multi.PermissionResultMultiListener;
 import com.thanosfisherman.mayi.listeners.multi.RationaleMultiListener;
 import com.thanosfisherman.mayi.listeners.single.PermissionResultSingleListener;
 import com.thanosfisherman.mayi.listeners.single.RationaleSingleListener;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,7 +38,6 @@ public class MayiFragment extends Fragment
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
-        Log.i(TAG, "onRequestPermissionsResult() " + Arrays.toString(permissions) + Arrays.toString(grantResults));
         if (requestCode == PERMISSION_REQUEST_CODE)
         {
             if (grantResults.length == 0)
@@ -126,7 +123,6 @@ public class MayiFragment extends Fragment
     @RequiresApi(api = Build.VERSION_CODES.M)
     void onContinuePermissionRequest()
     {
-        Log.i(TAG, "Continue with request");
         requestPermissions(mDeniedPermissions.toArray(new String[mDeniedPermissions.size()]), PERMISSION_REQUEST_CODE);
     }
 
@@ -134,7 +130,6 @@ public class MayiFragment extends Fragment
     {
         final List<PermissionBean> totalBeanList = new LinkedList<>();
 
-        Log.i(TAG, "Cancel request and call resultListener");
         if (mPermissionResultListener != null)
         {
             final PermissionBean beanRationale = new PermissionBean(mRationalePermissions.get(0));

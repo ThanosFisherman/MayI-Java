@@ -28,6 +28,13 @@ public class MainActivity extends AppCompatActivity
                                                    .onRationale(this::permissionRationaleSingle)
                                                    .check());
 
+        Button buttonLocation = (Button) findViewById(R.id.location_permission_button);
+        buttonLocation.setOnClickListener(v -> Mayi.withActivity(this)
+                                                   .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                                                   .onResult(this::permissionResultSingle)
+                                                   .onRationale(this::permissionRationaleSingle)
+                                                   .check());
+
         Button buttonAll = (Button) findViewById(R.id.all_permissions_button);
         buttonAll.setOnClickListener(v -> Mayi.withActivity(this)
                                               .withPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -35,13 +42,6 @@ public class MainActivity extends AppCompatActivity
                                               .onResult(this::permissionResultMulti)
                                               .onErrorListener(this::inCaseOfError)
                                               .check());
-
-        Button buttonLocation = (Button) findViewById(R.id.location_permission_button);
-        buttonLocation.setOnClickListener(v -> Mayi.withActivity(this)
-                                                   .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                                                   .onResult(this::permissionResultSingle)
-                                                   .onRationale(this::permissionRationaleSingle)
-                                                   .check());
     }
 
     private void permissionResultSingle(PermissionBean permission)

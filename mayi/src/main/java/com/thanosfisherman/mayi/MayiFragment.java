@@ -51,20 +51,13 @@ public class MayiFragment extends Fragment
                 {
                     beansResultList.get(i).setGranted(false);
                     if (shouldShowRequestPermissionRationale(permissions[i]))
-                    {
-                        beansResultList.get(i).setShouldShowRequestPermissionRationale(true);
                         beansResultList.get(i).setPermanentlyDenied(false);
-                    }
                     else
-                    {
-                        beansResultList.get(i).setShouldShowRequestPermissionRationale(false);
                         beansResultList.get(i).setPermanentlyDenied(true);
-                    }
                 }
                 else
                 {
                     beansResultList.get(i).setGranted(true);
-                    beansResultList.get(i).setShouldShowRequestPermissionRationale(false);
                     beansResultList.get(i).setPermanentlyDenied(false);
                 }
             }
@@ -79,7 +72,6 @@ public class MayiFragment extends Fragment
                     final PermissionBean bean = new PermissionBean(perm);
                     bean.setGranted(true);
                     bean.setPermanentlyDenied(false);
-                    bean.setShouldShowRequestPermissionRationale(false);
                     beansTotal.add(bean);
                 }
                 beansTotal.addAll(beansResultList);
@@ -103,7 +95,6 @@ public class MayiFragment extends Fragment
                 final PermissionBean beanRationale = new PermissionBean(deniedPermission);
                 beanRationale.setGranted(false);
                 beanRationale.setPermanentlyDenied(false);
-                beanRationale.setShouldShowRequestPermissionRationale(true);
                 rationaleBeanList.add(beanRationale);
                 mRationalePermissions.add(deniedPermission);
             }
@@ -113,7 +104,7 @@ public class MayiFragment extends Fragment
         else
         {
             if (mRationaleSingleListener != null)
-                mRationaleSingleListener.onRationale(new PermissionRationaleToken(this));
+                mRationaleSingleListener.onRationale(rationaleBeanList.get(0), new PermissionRationaleToken(this));
             else if (mRationaleMultiListener != null)
                 mRationaleMultiListener.onRationale(rationaleBeanList.toArray(new PermissionBean[rationaleBeanList.size()]),
                                                     new PermissionRationaleToken(this));
@@ -128,19 +119,16 @@ public class MayiFragment extends Fragment
 
     void onSkipPermissionRequest()
     {
-        final List<PermissionBean> totalBeanList = new LinkedList<>();
-
         if (mPermissionResultListener != null)
         {
             final PermissionBean beanRationale = new PermissionBean(mRationalePermissions.get(0));
             beanRationale.setGranted(false);
             beanRationale.setPermanentlyDenied(false);
-            beanRationale.setShouldShowRequestPermissionRationale(true);
-            totalBeanList.add(beanRationale);
-            mPermissionResultListener.permissionResult(totalBeanList.get(0));
+            mPermissionResultListener.permissionResult(beanRationale);
         }
         else if (mPermissionsResultMultiListener != null)
         {
+            final List<PermissionBean> totalBeanList = new LinkedList<>();
             for (String perm : mPermissions)
             {
                 final PermissionBean bean = new PermissionBean(perm);
@@ -148,24 +136,19 @@ public class MayiFragment extends Fragment
                 if (mGrantedPermissions.contains(perm))
                 {
                     bean.setGranted(true);
-                    bean.setShouldShowRequestPermissionRationale(false);
                     bean.setPermanentlyDenied(false);
-                    totalBeanList.add(bean);
                 }
                 else if (mRationalePermissions.contains(perm))
                 {
                     bean.setGranted(false);
-                    bean.setShouldShowRequestPermissionRationale(true);
                     bean.setPermanentlyDenied(false);
-                    totalBeanList.add(bean);
                 }
                 else
                 {
                     bean.setGranted(false);
-                    bean.setShouldShowRequestPermissionRationale(false);
                     bean.setPermanentlyDenied(true);
-                    totalBeanList.add(bean);
                 }
+                totalBeanList.add(bean);
             }
             mPermissionsResultMultiListener.permissionResults(totalBeanList.toArray(new PermissionBean[totalBeanList.size()]));
         }

@@ -29,7 +29,7 @@ public MainActivity extends AppCompatActivity
 	    Mayi.withActivity(MainActivity.this)
             .withPermission(Manifest.permission.READ_CONTACTS)
             .onResult(permission -> permissionResultSingle(permission))
-            .onRationale(token -> permissionRationaleSingle(token))
+            .onRationale((permission, token) -> permissionRationaleSingle(permission,token))
             .check()
 	}
 }
@@ -43,10 +43,10 @@ public MainActivity extends AppCompatActivity
      Toast.makeText(MainActivity.this, "PERMISSION RESULT " + permission.toString(), Toast.LENGTH_LONG).show();
  }
  
- private void permissionRationaleSingle(PermissionToken token)
+ private void permissionRationaleSingle(PermissionBean bean, PermissionToken token)
  {
-     Toast.makeText(MainActivity.this, "Should show rationale for Contacts permission", Toast.LENGTH_LONG).show();
-     token.skipPermissionRequest();
+     Toast.makeText(MainActivity.this, "Should show rationale for " + bean.getSimpleName() + " permission", Toast.LENGTH_LONG).show();
+     token.skipPermissionRequest();   
  }
 ```
 
@@ -114,7 +114,7 @@ Add the following to your **app module** `build.gradle` file
 
 ```groovy
 dependencies {
-   compile 'com.thanosfisherman.mayi:mayi:1.2'
+   compile 'com.thanosfisherman.mayi:mayi:1.3'
 }
 ```
 

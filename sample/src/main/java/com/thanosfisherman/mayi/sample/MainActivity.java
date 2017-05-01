@@ -49,10 +49,18 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(MainActivity.this, "PERMISSION RESULT " + permission.toString(), Toast.LENGTH_LONG).show();
     }
 
-    private void permissionRationaleSingle(PermissionToken token)
+    private void permissionRationaleSingle(PermissionBean bean, PermissionToken token)
     {
-        Toast.makeText(MainActivity.this, "Should show rationale for Contacts permission", Toast.LENGTH_LONG).show();
-        token.skipPermissionRequest();
+        if (bean.getSimpleName().toLowerCase().contains("contacts"))
+        {
+            Toast.makeText(MainActivity.this, "Should show rationale for " + bean.getSimpleName() + " permission", Toast.LENGTH_LONG).show();
+            token.skipPermissionRequest();
+        }
+        else
+        {
+            Toast.makeText(MainActivity.this, "Should show rationale for " + bean.getSimpleName() + " permission", Toast.LENGTH_LONG).show();
+            token.continuePermissionRequest();
+        }
     }
 
     private void permissionResultMulti(PermissionBean[] permissions)

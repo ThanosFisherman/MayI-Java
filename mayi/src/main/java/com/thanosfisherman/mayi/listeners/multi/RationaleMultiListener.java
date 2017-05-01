@@ -1,9 +1,11 @@
 package com.thanosfisherman.mayi.listeners.multi;
 
+import android.support.annotation.NonNull;
+
 import com.thanosfisherman.mayi.PermissionBean;
 import com.thanosfisherman.mayi.PermissionToken;
 
 public interface RationaleMultiListener
 {
-    void onRationale(PermissionBean[] permissions, PermissionToken token);
+    void onRationale(@NonNull PermissionBean[] permissions, @NonNull PermissionToken token);
 }

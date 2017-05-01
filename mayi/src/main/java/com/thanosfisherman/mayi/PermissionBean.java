@@ -6,19 +6,17 @@ public class PermissionBean
 {
     @NonNull public final String name;
     private boolean isGranted;
-    private boolean shouldShowRequestPermissionRationale;
     private boolean isPermanentlyDenied;
 
     PermissionBean(String name)
     {
-        this(name, false, false);
+        this(name, false);
     }
 
-    private PermissionBean(@NonNull String name, boolean isGranted, boolean shouldShowRequestPermissionRationale)
+    private PermissionBean(@NonNull String name, boolean isGranted)
     {
         this.name = name;
         this.isGranted = isGranted;
-        this.shouldShowRequestPermissionRationale = shouldShowRequestPermissionRationale;
     }
 
     @Override
@@ -31,7 +29,7 @@ public class PermissionBean
 
         final PermissionBean that = (PermissionBean) o;
 
-        return isGranted == that.isGranted && shouldShowRequestPermissionRationale == that.shouldShowRequestPermissionRationale && name.equals(that.name);
+        return isGranted == that.isGranted && name.equals(that.name);
     }
 
     @Override
@@ -39,15 +37,13 @@ public class PermissionBean
     {
         int result = name.hashCode();
         result = 31 * result + (isGranted ? 1 : 0);
-        result = 31 * result + (shouldShowRequestPermissionRationale ? 1 : 0);
         return result;
     }
 
     @Override
     public String toString()
     {
-        return "Permission{" + "name='" + getSimpleName() + "'" + ", isGranted=" + isGranted + ", shouldShowRequestPermissionRationale=" +
-               shouldShowRequestPermissionRationale + ", isPermanentlyDenied=" + isPermanentlyDenied + '}';
+        return "Permission{" + "name='" + getSimpleName() + "'" + ", isGranted=" + isGranted() + ", isPermanentlyDenied=" + isPermanentlyDenied() + "}";
     }
 
     @NonNull
@@ -73,19 +69,9 @@ public class PermissionBean
         return isGranted;
     }
 
-    public boolean isShouldShowRequestPermissionRationale()
-    {
-        return shouldShowRequestPermissionRationale;
-    }
-
     void setGranted(boolean granted)
     {
         this.isGranted = granted;
-    }
-
-    void setShouldShowRequestPermissionRationale(boolean shouldShowRequestPermissionRationale)
-    {
-        this.shouldShowRequestPermissionRationale = shouldShowRequestPermissionRationale;
     }
 
     public boolean isPermanentlyDenied()

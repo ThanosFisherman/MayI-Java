@@ -144,7 +144,6 @@ public class Mayi implements IPermissionBuilder,
         {
             beans[i] = new PermissionBean(mPermissions[i]);
             beans[i].setGranted(true);
-            beans[i].setShouldShowRequestPermissionRationale(false);
             beans[i].setPermanentlyDenied(false);
         }
         if (mPermissionResultListener != null)

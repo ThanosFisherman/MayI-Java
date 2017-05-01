@@ -3,14 +3,16 @@ package com.thanosfisherman.mayi;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import java.lang.ref.WeakReference;
+
 final class PermissionRationaleToken implements PermissionToken
 {
-    private final MayiFragment mayiFragment;
+    private final WeakReference<MayiFragment> mayiFragment;
     private boolean isTokenResolved = false;
 
     PermissionRationaleToken(MayiFragment mayiFragment)
     {
-        this.mayiFragment = mayiFragment;
+        this.mayiFragment = new WeakReference<>(mayiFragment);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -19,7 +21,7 @@ final class PermissionRationaleToken implements PermissionToken
     {
         if (!isTokenResolved)
         {
-            mayiFragment.onContinuePermissionRequest();
+            mayiFragment.get().onContinuePermissionRequest();
             isTokenResolved = true;
         }
     }
@@ -29,7 +31,7 @@ final class PermissionRationaleToken implements PermissionToken
     {
         if (!isTokenResolved)
         {
-            mayiFragment.onSkipPermissionRequest();
+            mayiFragment.get().onSkipPermissionRequest();
             isTokenResolved = true;
         }
     }

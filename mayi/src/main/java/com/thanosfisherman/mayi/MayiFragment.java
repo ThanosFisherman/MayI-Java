@@ -3,7 +3,6 @@ package com.thanosfisherman.mayi;
 import android.app.Fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -24,15 +23,9 @@ public class MayiFragment extends Fragment
     @Nullable private RationaleSingleListener mRationaleSingleListener;
     @Nullable private PermissionResultMultiListener mPermissionsResultMultiListener;
     @Nullable private RationaleMultiListener mRationaleMultiListener;
-    private List<String> mDeniedPermissions, mGrantedPermissions, mRationalePermissions = new LinkedList<>();
+    private List<String> mDeniedPermissions, mGrantedPermissions;
+    private final List<String> mRationalePermissions = new LinkedList<>();
     private String[] mPermissions;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        //mRationalePermissions = new LinkedList<>();
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override

@@ -26,6 +26,7 @@ public class MayiFragment extends Fragment
     private List<String> mDeniedPermissions, mGrantedPermissions;
     private final List<String> mRationalePermissions = new LinkedList<>();
     private String[] mPermissions;
+    private boolean isShowingNativeDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -33,6 +34,7 @@ public class MayiFragment extends Fragment
     {
         if (requestCode == PERMISSION_REQUEST_CODE)
         {
+            isShowingNativeDialog = false;
             if (grantResults.length == 0)
                 return;
             final List<PermissionBean> beansResultList = new LinkedList<>();
@@ -93,7 +95,11 @@ public class MayiFragment extends Fragment
             }
         }
         if (rationaleBeanList.isEmpty())
-            requestPermissions(deniedPermissions.toArray(new String[deniedPermissions.size()]), PERMISSION_REQUEST_CODE);
+        {
+            if (!isShowingNativeDialog)
+                requestPermissions(deniedPermissions.toArray(new String[deniedPermissions.size()]), PERMISSION_REQUEST_CODE);
+            isShowingNativeDialog = true;
+        }
         else
         {
             if (mRationaleSingleListener != null)
@@ -107,11 +113,14 @@ public class MayiFragment extends Fragment
     @RequiresApi(api = Build.VERSION_CODES.M)
     void onContinuePermissionRequest()
     {
-        requestPermissions(mDeniedPermissions.toArray(new String[mDeniedPermissions.size()]), PERMISSION_REQUEST_CODE);
+        if (!isShowingNativeDialog)
+            requestPermissions(mDeniedPermissions.toArray(new String[mDeniedPermissions.size()]), PERMISSION_REQUEST_CODE);
+        isShowingNativeDialog = true;
     }
 
     void onSkipPermissionRequest()
     {
+        isShowingNativeDialog = false;
         if (mPermissionResultListener != null)
         {
             final PermissionBean beanRationale = new PermissionBean(mRationalePermissions.get(0));

@@ -21,21 +21,21 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button buttonContacts = (Button) findViewById(R.id.contacts_permission_button);
+        Button buttonContacts = findViewById(R.id.contacts_permission_button);
         buttonContacts.setOnClickListener(v -> Mayi.withActivity(this)
                                                    .withPermission(Manifest.permission.READ_CONTACTS)
                                                    .onResult(this::permissionResultSingle)
                                                    .onRationale(this::permissionRationaleSingle)
                                                    .check());
 
-        Button buttonLocation = (Button) findViewById(R.id.location_permission_button);
+        Button buttonLocation = findViewById(R.id.location_permission_button);
         buttonLocation.setOnClickListener(v -> Mayi.withActivity(this)
                                                    .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                                                    .onResult(this::permissionResultSingle)
                                                    .onRationale(this::permissionRationaleSingle)
                                                    .check());
 
-        Button buttonAll = (Button) findViewById(R.id.all_permissions_button);
+        Button buttonAll = findViewById(R.id.all_permissions_button);
         buttonAll.setOnClickListener(v -> Mayi.withActivity(this)
                                               .withPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION)
                                               .onRationale(this::permissionRationaleMulti)
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
 
     private void permissionResultSingle(PermissionBean permission)
     {
-        Toast.makeText(MainActivity.this, "PERMISSION RESULT " + permission.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "PERMISSION RESULT " + permission, Toast.LENGTH_LONG).show();
     }
 
     private void permissionRationaleSingle(PermissionBean bean, PermissionToken token)

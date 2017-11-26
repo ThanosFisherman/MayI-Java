@@ -164,4 +164,11 @@ public class MayiFragment extends Fragment
         mRationaleSingleListener = rationaleSingle;
         mRationaleMultiListener = rationaleMulti;
     }
+
+    /*private boolean isPermissionsDialogShowing()
+    {
+        final ActivityManager am = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+        final ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        return "com.android.packageinstaller.permission.ui.GrantPermissionsActivity".equals(cn.getClassName());
+    }*/
 }

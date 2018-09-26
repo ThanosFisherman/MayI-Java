@@ -3,9 +3,6 @@ package com.thanosfisherman.mayi;
 import android.app.Fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 
 import com.thanosfisherman.mayi.listeners.multi.PermissionResultMultiListener;
 import com.thanosfisherman.mayi.listeners.multi.RationaleMultiListener;
@@ -14,6 +11,10 @@ import com.thanosfisherman.mayi.listeners.single.RationaleSingleListener;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 public class MayiFragment extends Fragment
 {

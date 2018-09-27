@@ -12,15 +12,19 @@ internal class PermissionRationaleToken(mayiFragment: MayiFragment) : Permission
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun continuePermissionRequest() {
         if (!isTokenResolved) {
-            mayiFragment.get()?.onContinuePermissionRequest()
-            isTokenResolved = true
+            mayiFragment.get()?.let {
+                it.onContinuePermissionRequest()
+                isTokenResolved = true
+            }
         }
     }
 
     override fun skipPermissionRequest() {
         if (!isTokenResolved) {
-            mayiFragment.get()?.onSkipPermissionRequest()
-            isTokenResolved = true
+            mayiFragment.get()?.let {
+                it.onSkipPermissionRequest()
+                isTokenResolved = true
+            }
         }
     }
 }

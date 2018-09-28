@@ -3,9 +3,6 @@ package com.thanosfisherman.mayi;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Build;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import com.thanosfisherman.mayi.listeners.IPermissionBuilder;
 import com.thanosfisherman.mayi.listeners.MayiErrorListener;
@@ -18,49 +15,50 @@ import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
 public class Mayi implements IPermissionBuilder,
-                             IPermissionBuilder.Permission,
-                             IPermissionBuilder.SinglePermissionBuilder,
-                             IPermissionBuilder.MultiPermissionBuilder
-{
+        IPermissionBuilder.Permission,
+        IPermissionBuilder.SinglePermissionBuilder,
+        IPermissionBuilder.MultiPermissionBuilder {
     private String[] mPermissions;
-    @Nullable private PermissionResultSingleListener mPermissionResultListener;
-    @Nullable private RationaleSingleListener mRationaleSingleListener;
-    @Nullable private PermissionResultMultiListener mPermissionsResultMultiListener;
-    @Nullable private RationaleMultiListener mRationaleMultiListener;
+    @Nullable
+    private PermissionResultSingleListener mPermissionResultListener;
+    @Nullable
+    private RationaleSingleListener mRationaleSingleListener;
+    @Nullable
+    private PermissionResultMultiListener mPermissionsResultMultiListener;
+    @Nullable
+    private RationaleMultiListener mRationaleMultiListener;
     private MayiErrorListener mErrorListener;
     private final WeakReference<Activity> mActivity;
     private boolean isRationaleCalled = false, isResultCalled = false;
 
-    private Mayi(Activity activity)
-    {
+    private Mayi(Activity activity) {
         this.mActivity = new WeakReference<>(activity);
     }
 
-    public static IPermissionBuilder.Permission withActivity(Activity activity)
-    {
+    public static IPermissionBuilder.Permission withActivity(Activity activity) {
         return new Mayi(activity);
     }
 
     @Override
-    public SinglePermissionBuilder withPermission(@NonNull String permission)
-    {
+    public SinglePermissionBuilder withPermission(@NonNull String permission) {
         mPermissions = new String[]{permission};
         return this;
     }
 
     @Override
-    public MultiPermissionBuilder withPermissions(@NonNull String... permissions)
-    {
+    public MultiPermissionBuilder withPermissions(@NonNull String... permissions) {
         mPermissions = permissions;
         return this;
     }
 
     @Override
-    public SinglePermissionBuilder onResult(PermissionResultSingleListener response)
-    {
-        if (!isResultCalled)
-        {
+    public SinglePermissionBuilder onResult(PermissionResultSingleListener response) {
+        if (!isResultCalled) {
             mPermissionResultListener = response;
             isResultCalled = true;
         }
@@ -68,10 +66,8 @@ public class Mayi implements IPermissionBuilder,
     }
 
     @Override
-    public SinglePermissionBuilder onRationale(RationaleSingleListener rationale)
-    {
-        if (!isRationaleCalled)
-        {
+    public SinglePermissionBuilder onRationale(RationaleSingleListener rationale) {
+        if (!isRationaleCalled) {
             mRationaleSingleListener = rationale;
             isRationaleCalled = true;
         }
@@ -79,10 +75,8 @@ public class Mayi implements IPermissionBuilder,
     }
 
     @Override
-    public MultiPermissionBuilder onResult(PermissionResultMultiListener response)
-    {
-        if (!isResultCalled)
-        {
+    public MultiPermissionBuilder onResult(PermissionResultMultiListener response) {
+        if (!isResultCalled) {
             mPermissionsResultMultiListener = response;
             isResultCalled = true;
         }
@@ -90,10 +84,8 @@ public class Mayi implements IPermissionBuilder,
     }
 
     @Override
-    public MultiPermissionBuilder onRationale(RationaleMultiListener rationale)
-    {
-        if (!isRationaleCalled)
-        {
+    public MultiPermissionBuilder onRationale(RationaleMultiListener rationale) {
+        if (!isRationaleCalled) {
             mRationaleMultiListener = rationale;
             isRationaleCalled = true;
         }
@@ -101,17 +93,14 @@ public class Mayi implements IPermissionBuilder,
     }
 
     @Override
-    public IPermissionBuilder onErrorListener(MayiErrorListener errorListener)
-    {
+    public IPermissionBuilder onErrorListener(MayiErrorListener errorListener) {
         mErrorListener = errorListener;
         return this;
     }
 
     @Override
-    public void check()
-    {
-        try
-        {
+    public void check() {
+        try {
             if (mPermissions == null || mPermissions.length == 0)
                 throw new IllegalArgumentException("You must specify at least one valid permission to check");
             if (Arrays.asList(mPermissions).contains(null))
@@ -119,29 +108,25 @@ public class Mayi implements IPermissionBuilder,
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
                 grandEverything();
-            else
-            {
-                final PermissionMatcher matcher = new PermissionMatcher(mPermissions, mActivity);
-                if (matcher.areAllPermissionsGranted())
+            else {
+                //final PermissionMatcher matcher = new PermissionMatcher(mPermissions, mActivity);
+                final KermissionMatcher matcher = new KermissionMatcher(mPermissions, mActivity);
+                if (matcher.isAllGranted())
                     grandEverything();
                 else
                     initializeFragmentAndCheck(mPermissions, matcher.getDeniedPermissions(), matcher.getGrantedPermissions());
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             if (mErrorListener != null)
                 mErrorListener.onError(e);
         }
     }
 
-    private void grandEverything()
-    {
+    private void grandEverything() {
         final PermissionBean[] beans = new PermissionBean[mPermissions.length];
 
-        for (int i = 0; i < mPermissions.length; i++)
-        {
+        for (int i = 0; i < mPermissions.length; i++) {
             beans[i] = new PermissionBean(mPermissions[i]);
             beans[i].setGranted(true);
             beans[i].setPermanentlyDenied(false);
@@ -153,20 +138,16 @@ public class Mayi implements IPermissionBuilder,
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void initializeFragmentAndCheck(@NonNull String[] allPermissions, @NonNull List<String> deniedPermissions, @NonNull List<String> grantedPermissions)
-    {
+    private void initializeFragmentAndCheck(@NonNull String[] allPermissions, @NonNull List<String> deniedPermissions, @NonNull List<String> grantedPermissions) {
         MayiFragment frag = (MayiFragment) mActivity.get().getFragmentManager().findFragmentByTag(MayiFragment.TAG);
-        if (frag == null)
-        {
+        if (frag == null) {
             final FragmentManager fragmentManager = mActivity.get().getFragmentManager();
             frag = new MayiFragment();
             frag.setRetainInstance(true);
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
-            {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 fragmentManager.beginTransaction().add(frag, MayiFragment.TAG).commit();
                 fragmentManager.executePendingTransactions();
-            }
-            else
+            } else
                 fragmentManager.beginTransaction().add(frag, MayiFragment.TAG).commitNow();
 
         }

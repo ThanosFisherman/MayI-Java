@@ -109,8 +109,7 @@ public class Mayi implements IPermissionBuilder,
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
                 grandEverything();
             else {
-                //final PermissionMatcher matcher = new PermissionMatcher(mPermissions, mActivity);
-                final KermissionMatcher matcher = new KermissionMatcher(mPermissions, mActivity);
+                final PermissionMatcher matcher = new PermissionMatcher(mPermissions, mActivity);
                 if (matcher.isAllGranted())
                     grandEverything();
                 else

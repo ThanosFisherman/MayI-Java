@@ -16,14 +16,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-public class MayiFragment extends Fragment
-{
+public class MayiFragment extends Fragment {
     public static final String TAG = MayiFragment.class.getSimpleName();
     public static final int PERMISSION_REQUEST_CODE = 1001;
-    @Nullable private PermissionResultSingleListener mPermissionResultListener;
-    @Nullable private RationaleSingleListener mRationaleSingleListener;
-    @Nullable private PermissionResultMultiListener mPermissionsResultMultiListener;
-    @Nullable private RationaleMultiListener mRationaleMultiListener;
+    @Nullable
+    private PermissionResultSingleListener mPermissionResultListener;
+    @Nullable
+    private RationaleSingleListener mRationaleSingleListener;
+    @Nullable
+    private PermissionResultMultiListener mPermissionsResultMultiListener;
+    @Nullable
+    private RationaleMultiListener mRationaleMultiListener;
     private List<String> mDeniedPermissions, mGrantedPermissions;
     private final List<String> mRationalePermissions = new LinkedList<>();
     private String[] mPermissions;
@@ -31,43 +34,30 @@ public class MayiFragment extends Fragment
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        if (requestCode == PERMISSION_REQUEST_CODE)
-        {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
             isShowingNativeDialog = false;
             if (grantResults.length == 0)
                 return;
             final List<PermissionBean> beansResultList = new LinkedList<>();
 
-            for (int i = 0; i < permissions.length; i++)
-            {
-                beansResultList.add(i, new PermissionBean(permissions[i]));
-                if (grantResults[i] == PackageManager.PERMISSION_DENIED)
-                {
-                    beansResultList.get(i).setGranted(false);
+            for (int i = 0; i < permissions.length; i++) {
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                     if (shouldShowRequestPermissionRationale(permissions[i]))
-                        beansResultList.get(i).setPermanentlyDenied(false);
+                        beansResultList.add(new PermissionBean(permissions[i], false, false));
                     else
-                        beansResultList.get(i).setPermanentlyDenied(true);
-                }
-                else
-                {
-                    beansResultList.get(i).setGranted(true);
-                    beansResultList.get(i).setPermanentlyDenied(false);
+                        beansResultList.add(new PermissionBean(permissions[i], false, true));
+                } else {
+                    beansResultList.add(new PermissionBean(permissions[i], true, false));
                 }
             }
 
             if (mPermissionResultListener != null)
                 mPermissionResultListener.permissionResult(beansResultList.get(0));
-            else if (mPermissionsResultMultiListener != null)
-            {
+            else if (mPermissionsResultMultiListener != null) {
                 final List<PermissionBean> beansTotal = new LinkedList<>();
-                for (String perm : mGrantedPermissions)
-                {
-                    final PermissionBean bean = new PermissionBean(perm);
-                    bean.setGranted(true);
-                    bean.setPermanentlyDenied(false);
+                for (String perm : mGrantedPermissions) {
+                    final PermissionBean bean = new PermissionBean(perm, true, false);
                     beansTotal.add(bean);
                 }
                 beansTotal.addAll(beansResultList);
@@ -77,79 +67,55 @@ public class MayiFragment extends Fragment
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    void checkPermissions(@NonNull String[] allPermissions, @NonNull List<String> deniedPermissions, @NonNull List<String> grantedPermissions)
-    {
+    void checkPermissions(@NonNull String[] allPermissions, @NonNull List<String> deniedPermissions, @NonNull List<String> grantedPermissions) {
         mPermissions = allPermissions;
         mDeniedPermissions = deniedPermissions;
         mGrantedPermissions = grantedPermissions;
         mRationalePermissions.clear();
         final List<PermissionBean> rationaleBeanList = new LinkedList<>();
-        for (String deniedPermission : deniedPermissions)
-        {
-            if (shouldShowRequestPermissionRationale(deniedPermission))
-            {
-                final PermissionBean beanRationale = new PermissionBean(deniedPermission);
-                beanRationale.setGranted(false);
-                beanRationale.setPermanentlyDenied(false);
+        for (String deniedPermission : deniedPermissions) {
+            if (shouldShowRequestPermissionRationale(deniedPermission)) {
+                final PermissionBean beanRationale = new PermissionBean(deniedPermission, false, false);
                 rationaleBeanList.add(beanRationale);
                 mRationalePermissions.add(deniedPermission);
             }
         }
-        if (rationaleBeanList.isEmpty())
-        {
+        if (rationaleBeanList.isEmpty()) {
             if (!isShowingNativeDialog)
                 requestPermissions(deniedPermissions.toArray(new String[deniedPermissions.size()]), PERMISSION_REQUEST_CODE);
             isShowingNativeDialog = true;
-        }
-        else
-        {
+        } else {
             if (mRationaleSingleListener != null)
                 mRationaleSingleListener.onRationale(rationaleBeanList.get(0), new PermissionRationaleToken(this));
             else if (mRationaleMultiListener != null)
                 mRationaleMultiListener.onRationale(rationaleBeanList.toArray(new PermissionBean[rationaleBeanList.size()]),
-                                                    new PermissionRationaleToken(this));
+                        new PermissionRationaleToken(this));
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    void onContinuePermissionRequest()
-    {
+    void onContinuePermissionRequest() {
         if (!isShowingNativeDialog)
             requestPermissions(mDeniedPermissions.toArray(new String[mDeniedPermissions.size()]), PERMISSION_REQUEST_CODE);
         isShowingNativeDialog = true;
     }
 
-    void onSkipPermissionRequest()
-    {
+    void onSkipPermissionRequest() {
         isShowingNativeDialog = false;
-        if (mPermissionResultListener != null)
-        {
-            final PermissionBean beanRationale = new PermissionBean(mRationalePermissions.get(0));
-            beanRationale.setGranted(false);
-            beanRationale.setPermanentlyDenied(false);
+        if (mPermissionResultListener != null) {
+            final PermissionBean beanRationale = new PermissionBean(mRationalePermissions.get(0), false, false);
             mPermissionResultListener.permissionResult(beanRationale);
-        }
-        else if (mPermissionsResultMultiListener != null)
-        {
+        } else if (mPermissionsResultMultiListener != null) {
             final List<PermissionBean> totalBeanList = new LinkedList<>();
-            for (String perm : mPermissions)
-            {
-                final PermissionBean bean = new PermissionBean(perm);
+            for (String perm : mPermissions) {
+                final PermissionBean bean;
 
-                if (mGrantedPermissions.contains(perm))
-                {
-                    bean.setGranted(true);
-                    bean.setPermanentlyDenied(false);
-                }
-                else if (mRationalePermissions.contains(perm))
-                {
-                    bean.setGranted(false);
-                    bean.setPermanentlyDenied(false);
-                }
-                else
-                {
-                    bean.setGranted(false);
-                    bean.setPermanentlyDenied(true);
+                if (mGrantedPermissions.contains(perm)) {
+                    bean = new PermissionBean(perm, true, false);
+                } else if (mRationalePermissions.contains(perm)) {
+                    bean = new PermissionBean(perm, false, false);
+                } else {
+                    bean = new PermissionBean(perm, false, true);
                 }
                 totalBeanList.add(bean);
             }
@@ -158,8 +124,7 @@ public class MayiFragment extends Fragment
     }
 
     void setListeners(PermissionResultSingleListener listenerResult, PermissionResultMultiListener listenerResultMulti, RationaleSingleListener rationaleSingle,
-                      RationaleMultiListener rationaleMulti)
-    {
+                      RationaleMultiListener rationaleMulti) {
         mPermissionResultListener = listenerResult;
         mPermissionsResultMultiListener = listenerResultMulti;
         mRationaleSingleListener = rationaleSingle;

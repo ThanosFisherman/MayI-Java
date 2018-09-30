@@ -2,6 +2,7 @@ package com.thanosfisherman.mayi.sample
 
 import android.Manifest
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun permissionResultSingle(permission: PermissionBean) {
         Toast.makeText(this, "PERMISSION RESULT $permission", Toast.LENGTH_LONG).show()
+        Log.i("MainActivity", "PERMISSION RESULT $permission")
     }
 
     private fun permissionRationaleSingle(bean: PermissionBean, token: PermissionToken) {
@@ -57,18 +59,25 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Should show rationale for " + bean.simpleName + " permission", Toast.LENGTH_LONG).show()
             token.continuePermissionRequest()
         }
+        Log.i("MainActivity", "Should show rationale for ${bean.simpleName}")
     }
 
     private fun permissionResultMulti(permissions: Array<PermissionBean>) {
         Toast.makeText(this, "MULTI PERMISSION RESULT " + Arrays.deepToString(permissions), Toast.LENGTH_LONG).show()
+        Log.i("MainActivity", "MULTI PERMISSION RESULT " + Arrays.deepToString(permissions))
+
     }
 
     private fun permissionRationaleMulti(permissions: Array<PermissionBean>, token: PermissionToken) {
         Toast.makeText(this, "Rationales for Multiple Permissions " + Arrays.deepToString(permissions), Toast.LENGTH_LONG).show()
+        Log.i("MainActivity", "Rationales for Multiple Permissions " + Arrays.deepToString(permissions))
+
         token.continuePermissionRequest()
     }
 
     private fun inCaseOfError(e: Exception) {
         Toast.makeText(this, "ERROR " + e.toString(), Toast.LENGTH_SHORT).show()
+        Log.e("MainActivity", "ERROR " + e.toString())
+
     }
 }

@@ -1,8 +1,8 @@
 package com.thanosfisherman.mayi.listeners.multi;
 
-import androidx.annotation.NonNull;
-
 import com.thanosfisherman.mayi.PermissionBean;
+
+import androidx.annotation.NonNull;
 
 @FunctionalInterface
 public interface PermissionResultMultiListener

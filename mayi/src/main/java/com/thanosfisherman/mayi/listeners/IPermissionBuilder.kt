@@ -1,12 +1,10 @@
 package com.thanosfisherman.mayi.listeners
 
-import com.thanosfisherman.mayi.listeners.multi.PermissionResultMultiListener
-import com.thanosfisherman.mayi.listeners.multi.RationaleMultiListener
-import com.thanosfisherman.mayi.listeners.single.PermissionResultSingleListener
-import com.thanosfisherman.mayi.listeners.single.RationaleSingleListener
+import com.thanosfisherman.mayi.PermissionBean
+import com.thanosfisherman.mayi.PermissionToken
 
 interface IPermissionBuilder {
-    fun onErrorListener(errorListener: MayiErrorListener): IPermissionBuilder
+    fun onErrorListener(errorListener: (Exception) -> Unit): IPermissionBuilder
     fun check()
 
     interface Permission {
@@ -18,12 +16,12 @@ interface IPermissionBuilder {
     }
 
     interface SinglePermissionBuilder : IPermissionBuilder {
-        fun onResult(response: PermissionResultSingleListener): SinglePermissionBuilder
-        fun onRationale(rationale: RationaleSingleListener): SinglePermissionBuilder
+        fun onResult(response: (PermissionBean) -> Unit): SinglePermissionBuilder
+        fun onRationale(rationale: (PermissionBean, PermissionToken) -> Unit): SinglePermissionBuilder
     }
 
     interface MultiPermissionBuilder : IPermissionBuilder {
-        fun onResult(response: PermissionResultMultiListener): MultiPermissionBuilder
-        fun onRationale(rationale: RationaleMultiListener): MultiPermissionBuilder
+        fun onResult(response: (Array<PermissionBean>) -> Unit): MultiPermissionBuilder
+        fun onRationale(rationale: (Array<PermissionBean>, PermissionToken) -> Unit): MultiPermissionBuilder
     }
 }

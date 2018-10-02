@@ -8,7 +8,7 @@ import com.thanosfisherman.mayi.listeners.IPermissionBuilder
 import java.lang.ref.WeakReference
 import java.util.*
 
-class KayI private constructor(activity: Activity) : IPermissionBuilder,
+class MayI private constructor(activity: Activity) : IPermissionBuilder,
         IPermissionBuilder.Permission,
         IPermissionBuilder.SinglePermissionBuilder,
         IPermissionBuilder.MultiPermissionBuilder {
@@ -25,7 +25,7 @@ class KayI private constructor(activity: Activity) : IPermissionBuilder,
 
     companion object {
         fun withActivity(activity: Activity): IPermissionBuilder.Permission {
-            return KayI(activity)
+            return MayI(activity)
         }
     }
 

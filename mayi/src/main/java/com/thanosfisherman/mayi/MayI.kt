@@ -2,7 +2,6 @@ package com.thanosfisherman.mayi
 
 import android.app.Activity
 import android.os.Build
-import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import com.thanosfisherman.mayi.listeners.IPermissionBuilder
 import java.lang.ref.WeakReference
@@ -48,7 +47,7 @@ class MayI private constructor(activity: Activity) : IPermissionBuilder,
                 if (matcher.isAllGranted)
                     grandEverything()
                 else
-                    initializeFragmentAndCheck(permissions, matcher.deniedPermissions, matcher.grantedPermissions)
+                    initializeFragmentAndCheck(matcher)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -100,7 +99,7 @@ class MayI private constructor(activity: Activity) : IPermissionBuilder,
 
     @Suppress("DEPRECATION")
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private fun initializeFragmentAndCheck(@NonNull allPermissions: Array<out String>, @NonNull deniedPermissions: List<String>, @NonNull grantedPermissions: List<String>) {
+    private fun initializeFragmentAndCheck(permissionMatcher: PermissionMatcher) {
         var mayiFrag: MayiFragment? = activity.get()?.fragmentManager?.findFragmentByTag(MayiFragment.TAG) as MayiFragment?
 
         mayiFrag = mayiFrag ?: kotlin.run {
@@ -116,7 +115,7 @@ class MayI private constructor(activity: Activity) : IPermissionBuilder,
 
         mayiFrag.let {
             it.setListeners(permissionResultSingleListener, permissionResultMultiListener, rationaleSingleListener, rationaleMultiListener)
-            it.checkPermissions(allPermissions, deniedPermissions, grantedPermissions)
+            it.checkPermissions(permissionMatcher.permissions, permissionMatcher.deniedPermissions, permissionMatcher.grantedPermissions)
         }
     }
 

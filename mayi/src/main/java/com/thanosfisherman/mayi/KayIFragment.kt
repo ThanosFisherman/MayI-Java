@@ -94,10 +94,10 @@ class KayIFragment : Fragment(), PermissionToken {
                 .toTypedArray())
     }
 
-    internal fun setListeners(listenerResult: (PermissionBean) -> Unit,
-                              listenerResultMulti: (Array<PermissionBean>) -> Unit,
-                              rationaleSingle: (PermissionBean, PermissionToken) -> Unit,
-                              rationaleMulti: (Array<PermissionBean>, PermissionToken) -> Unit) {
+    internal fun setListeners(listenerResult: ((PermissionBean) -> Unit)?,
+                              listenerResultMulti: ((Array<PermissionBean>) -> Unit)?,
+                              rationaleSingle: ((PermissionBean, PermissionToken) -> Unit)?,
+                              rationaleMulti: ((Array<PermissionBean>, PermissionToken) -> Unit)?) {
         permissionResultSingleListener = listenerResult
         permissionResultMultiListener = listenerResultMulti
         rationaleSingleListener = rationaleSingle

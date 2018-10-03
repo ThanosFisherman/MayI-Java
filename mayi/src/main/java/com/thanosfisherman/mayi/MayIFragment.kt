@@ -8,12 +8,12 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import java.util.*
 
-private const val PERMISSION_REQUEST_CODE = 1001
 
-class KayIFragment : Fragment(), PermissionToken {
+class MayIFragment : Fragment(), PermissionToken {
 
     companion object {
-        const val TAG = "KayIFragment"
+        const val TAG = "MayIFragment"
+        private const val PERMISSION_REQUEST_CODE = 1001
     }
 
     private var permissionResultSingleListener: ((PermissionBean) -> Unit)? = null

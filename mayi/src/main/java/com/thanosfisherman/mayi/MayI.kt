@@ -100,22 +100,22 @@ class MayI private constructor(activity: Activity) : IPermissionBuilder,
     @Suppress("DEPRECATION")
     @RequiresApi(api = Build.VERSION_CODES.M)
     private fun initializeFragmentAndCheck(permissionMatcher: PermissionMatcher) {
-        var mayiFrag: MayiFragment? = activity.get()?.fragmentManager?.findFragmentByTag(MayiFragment.TAG) as MayiFragment?
+        var mayiFrag: MayIFragment? = activity.get()?.fragmentManager?.findFragmentByTag(MayIFragment.TAG) as MayIFragment?
 
         mayiFrag = mayiFrag ?: kotlin.run {
             val fragmentManager = activity.get()!!.fragmentManager
-            val frag = MayiFragment().apply { retainInstance = true }
+            val frag = MayIFragment().apply { retainInstance = true }
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                fragmentManager.beginTransaction().add(frag, MayiFragment.TAG).commit()
+                fragmentManager.beginTransaction().add(frag, MayIFragment.TAG).commit()
                 fragmentManager.executePendingTransactions()
             } else
-                fragmentManager.beginTransaction().add(frag, MayiFragment.TAG).commitNow()
+                fragmentManager.beginTransaction().add(frag, MayIFragment.TAG).commitNow()
             return@run frag
         }
 
         mayiFrag.let {
             it.setListeners(permissionResultSingleListener, permissionResultMultiListener, rationaleSingleListener, rationaleMultiListener)
-            it.checkPermissions(permissionMatcher.permissions, permissionMatcher.deniedPermissions, permissionMatcher.grantedPermissions)
+            it.checkPermissions(permissionMatcher)
         }
     }
 

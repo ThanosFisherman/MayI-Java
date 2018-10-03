@@ -1,7 +1,4 @@
-package com.thanosfisherman.mayi.listeners
-
-import com.thanosfisherman.mayi.PermissionBean
-import com.thanosfisherman.mayi.PermissionToken
+package com.thanosfisherman.mayi
 
 interface IPermissionBuilder {
     fun onErrorListener(errorListener: (Exception) -> Unit): IPermissionBuilder
@@ -10,7 +7,7 @@ interface IPermissionBuilder {
     interface Permission {
         fun withPermission(permission: String): SinglePermissionBuilder
 
-        fun withPermissions(vararg permissions: String): IPermissionBuilder.MultiPermissionBuilder
+        fun withPermissions(vararg permissions: String): MultiPermissionBuilder
 
         //IPermissionBuilder.MultiPermissionBuilder withPermissions(Collection<String> permissions);
     }

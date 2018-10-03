@@ -3,7 +3,6 @@ package com.thanosfisherman.mayi
 import android.app.Activity
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.thanosfisherman.mayi.listeners.IPermissionBuilder
 import java.lang.ref.WeakReference
 import java.util.*
 

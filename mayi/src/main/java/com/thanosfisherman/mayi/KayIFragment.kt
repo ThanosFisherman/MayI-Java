@@ -11,7 +11,10 @@ import java.util.*
 private const val PERMISSION_REQUEST_CODE = 1001
 
 class KayIFragment : Fragment(), PermissionToken {
-    val TAG = this.javaClass.simpleName
+
+    companion object {
+        const val TAG = "KayIFragment"
+    }
 
     private var permissionResultSingleListener: ((PermissionBean) -> Unit)? = null
     private var rationaleSingleListener: ((PermissionBean, PermissionToken) -> Unit)? = null

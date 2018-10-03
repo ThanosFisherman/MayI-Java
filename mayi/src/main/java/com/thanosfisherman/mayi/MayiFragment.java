@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-public class MayiFragment extends Fragment {
+public class MayiFragment extends Fragment implements PermissionToken {
     public static final String TAG = MayiFragment.class.getSimpleName();
     public static final int PERMISSION_REQUEST_CODE = 1001;
     @Nullable
@@ -94,13 +94,15 @@ public class MayiFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    void onContinuePermissionRequest() {
+    @Override
+    public void continuePermissionRequest() {
         if (!isShowingNativeDialog)
             requestPermissions(mDeniedPermissions.toArray(new String[mDeniedPermissions.size()]), PERMISSION_REQUEST_CODE);
         isShowingNativeDialog = true;
     }
 
-    void onSkipPermissionRequest() {
+    @Override
+    public void skipPermissionRequest() {
         isShowingNativeDialog = false;
         if (mPermissionResultListener != null) {
             final PermissionBean beanRationale = new PermissionBean(mRationalePermissions.get(0), false, false);

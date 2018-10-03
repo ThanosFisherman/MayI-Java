@@ -3,12 +3,14 @@
 package com.thanosfisherman.mayi
 
 import android.app.Fragment
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.util.*
 
 private const val PERMISSION_REQUEST_CODE = 1001
 
-class KayIFragment : Fragment() {
+class KayIFragment : Fragment(), PermissionToken {
     val TAG = this.javaClass.simpleName
 
     private var permissionResultSingleListener: ((PermissionBean) -> Unit)? = null
@@ -23,8 +25,28 @@ class KayIFragment : Fragment() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode == PERMISSION_REQUEST_CODE) {
             isShowingNativeDialog = false
-            if (grantResults.isEmpty()) return
+            if (grantResults.isEmpty())
+                return
+            val beansResultList = LinkedList<PermissionBean>()
 
+            for (i in permissions.indices) {
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                    if (shouldShowRequestPermissionRationale(permissions[i]))
+                        beansResultList.add(PermissionBean(permissions[i], false, false))
+                    else
+                        beansResultList.add(PermissionBean(permissions[i], false, true))
+                } else {
+                    beansResultList.add(PermissionBean(permissions[i], true, false))
+                }
+            }
+
+            permissionResultSingleListener?.invoke(beansResultList[0])
+
+            permissionResultMultiListener?.let { function ->
+
+                val grantedBeans = permissionMatcher.grantedPermissions.map { PermissionBean(it, true) }
+                function(beansResultList.plus(grantedBeans).toTypedArray())
+            }
         }
     }
 
@@ -45,13 +67,13 @@ class KayIFragment : Fragment() {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    internal fun onContinuePermissionRequest() {
+    override fun continuePermissionRequest() {
         if (!isShowingNativeDialog)
             requestPermissions(permissionMatcher.deniedPermissions.toTypedArray(), PERMISSION_REQUEST_CODE)
         isShowingNativeDialog = true
     }
 
-    internal fun onSkipPermissionRequest() {
+    override fun skipPermissionRequest() {
         isShowingNativeDialog = false
         permissionResultSingleListener?.invoke(PermissionBean(rationalePermissions[0]))
 

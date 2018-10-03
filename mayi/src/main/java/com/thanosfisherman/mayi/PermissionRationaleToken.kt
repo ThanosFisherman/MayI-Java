@@ -3,17 +3,15 @@ package com.thanosfisherman.mayi
 import android.os.Build
 import androidx.annotation.RequiresApi
 
-import java.lang.ref.WeakReference
+internal class PermissionRationaleToken(private val permissionToken: PermissionToken) : PermissionToken {
 
-internal class PermissionRationaleToken(mayiFragment: MayiFragment) : PermissionToken {
-    private val mayiFragment = WeakReference(mayiFragment)
     private var isTokenResolved = false
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun continuePermissionRequest() {
         if (!isTokenResolved) {
-            mayiFragment.get()?.let {
-                it.onContinuePermissionRequest()
+            permissionToken.let {
+                it.continuePermissionRequest()
                 isTokenResolved = true
             }
         }
@@ -21,8 +19,8 @@ internal class PermissionRationaleToken(mayiFragment: MayiFragment) : Permission
 
     override fun skipPermissionRequest() {
         if (!isTokenResolved) {
-            mayiFragment.get()?.let {
-                it.onSkipPermissionRequest()
+            permissionToken.let {
+                it.skipPermissionRequest()
                 isTokenResolved = true
             }
         }

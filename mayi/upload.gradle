@@ -58,6 +58,7 @@ if (project.rootProject.file("local.properties").exists()) {
             name = "mayi"
             desc = 'Yet another runtime permission library for Android'
             websiteUrl = siteUrl
+            //userOrg = 'thanosfisherman'
             vcsUrl = gitUrl
             licenses = ["Apache-2.0"]
             version {

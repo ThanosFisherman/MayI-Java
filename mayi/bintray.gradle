@@ -48,7 +48,7 @@ bintray {
         licenses = rootProject.ext.allLicenses
         githubRepo = rootProject.ext.githubRepository //Optional Github repository
         githubReleaseNotesFile = 'README.md' //Optional Github readme file
-        publish = false
+        publish = true
         publicDownloadNumbers = true
         version {
             desc = rootProject.ext.libraryDescription

@@ -23,3 +23,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontobfuscate
+-dontoptimize
+-dontshrink
+-dontpreverify
+-keepattributes JavascriptInterface, InnerClasses, *Annotation*, EnclosingMethod, SourceFile, LineNumberTable
+-keep class androidx.annotation.** {*;}
+-dontwarn androidx.annotation.**

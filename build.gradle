@@ -30,4 +30,27 @@ ext {
     targetSdkVersion = 28
     publishVersionName = '1.5'
     publishVersionCode = 6
+
+    currentVersionDesc = 'MayI current version'
+    bintrayRepo = 'maven'
+    bintrayName = 'mayi'   // Has to be same as your library module name
+
+    publishedGroupId = 'com.thanosfisherman.mayi'
+    libraryName = 'MayI'
+    artifact = 'mayi'     // Has to be same as your library module name
+
+    libraryDescription = 'Yet another runtime permission library for Android'
+
+    // Your github repo link
+    siteUrl = 'https://github.com/ThanosFisherman/MayI'
+    gitUrl = 'https://github.com/ThanosFisherman/MayI.git'
+    githubRepository= 'ThanosFisherman/MayI'
+
+    developerId = 'thanosfisherman'
+    developerName = 'Thanos Psaridis'
+    developerEmail = 'psaridis@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }

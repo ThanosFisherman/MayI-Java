@@ -35,4 +35,5 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.0.0'
     testImplementation 'junit:junit:4.12'
 }
-//apply from: 'upload.gradle'
+//apply from: 'install.gradle'
+//apply from: 'bintray.gradle'

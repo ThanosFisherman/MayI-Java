@@ -1,6 +1,3 @@
-MayI
------
-
 <img src="Logotype primary.png" width="40%" height="40%" />
 
 ### :rotating_light:Attention::rotating_light:</br>

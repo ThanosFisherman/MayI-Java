@@ -3,6 +3,8 @@ MayI
 
 <img src="Logotype primary.png" width="40%" height="40%" />
 
+### :rotating_light:Attention::rotating_light: A fully Kotlin-ified version of this project will now be maintained [here](https://github.com/ThanosFisherman/MayI). This repo will remain as is for legacy puproses.
+
 MayI is yet another library that simplifies the process of requesting permissions at runtime for devices that run Android Marshmallow and above.
 
 As of Androids Marshmallow and above a new functionality has been added that lets users grant or deny permissions while an app is running instead of granting them all
